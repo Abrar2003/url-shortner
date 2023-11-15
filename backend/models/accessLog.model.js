@@ -5,3 +5,5 @@ const accessLog_Schema = new mongoose.Schema({
   ip_address: { type: String, required: true },
   referer: { type: String, required: true },
 });
+
+module.exports = mongoose.model("logs", accessLog_Schema)
