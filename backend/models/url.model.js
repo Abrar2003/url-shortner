@@ -17,7 +17,6 @@ const url_Schema = new mongoose.Schema({
     type: {
         total_visitor: { type: Number, default: 0 },
     },
-    required: true,
 },
 
 }, {timestamps: true});

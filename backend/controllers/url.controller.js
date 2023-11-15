@@ -1,6 +1,7 @@
 const shortid = require('shortid');
 const URL = require('../models/url.model');
 
+
 const shortenURL = async (req, res) => {
     try {
         const { original_url, starting_date, expiration_date, title, description,stats } = req.body;
@@ -45,7 +46,7 @@ const redirectToOriginalURL = async (req, res) => {
         // Increment the total_visitor count in the stats
         url.stats.total_visitor += 1;
         await url.save();
-
+        console.log(url);
         // Redirect to the original URL
         res.redirect(url.original_url);
     } catch (error) {
