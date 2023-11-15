@@ -1,7 +1,6 @@
 const shortid = require('shortid');
 const URL = require('../models/url.model');
 
-
 const shortenURL = async (req, res) => {
     try {
         const { original_url, starting_date, expiration_date, title, description,stats } = req.body;
