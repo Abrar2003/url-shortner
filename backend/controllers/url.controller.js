@@ -1,11 +1,23 @@
 const shortid = require('shortid');
+const validator = require('validator')
 const URL = require('../models/url.model');
 
 
 const shortenURL = async (req, res) => {
     try {
         const { original_url, starting_date, expiration_date, title, description,stats } = req.body;
-        const short_id = shortid.generate();
+
+         // Validate the original_url
+        if (!validator.isURL(original_url)) {
+            return res.status(400).json({ error: 'Invalid URL format' });
+        }
+
+        // Generate a unique short_id
+        let short_id;
+        do {
+            short_id = shortid.generate();
+        } while (await URL.exists({ short_id }));
+
         const DOMAIN = process.env.DOMAIN
         const PORT = process.env.PORT
 
@@ -35,12 +47,22 @@ const redirectToOriginalURL = async (req, res) => {
     try {
         const { shortId } = req.params;
 
+        // Check for Invalid shortId
+        if (!validator.isAlphanumeric(shortId)) {
+            return res.status(400).json({ error: 'Invalid shortId format' });
+        }
+
         // Find the URL in the database using the short_id
         const url = await URL.findOne({ short_id: shortId });
 
 
         if (!url) {
             return res.status(404).json({ error: 'URL not found' });
+        }
+
+        // Handling Expired URLs
+        if (url.expiration_date && new Date(url.expiration_date) < new Date()) {
+            return res.status(400).json({ error: 'URL has expired' });
         }
 
         // Increment the total_visitor count in the stats
@@ -60,9 +82,8 @@ const updateURL = async (req, res) => {
         const { shortId } = req.params;
         const updateFields = req.body;
 
-        // Find the URL in the database using the short_id
+        // Handling Non-Existing URLs
         const url = await URL.findOne({ short_id: shortId });
-
         if (!url) {
             return res.status(404).json({ error: 'URL not found' });
         }
