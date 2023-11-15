@@ -14,5 +14,4 @@ Router.post('/short', shortenURL);
 Router.get('/:shortId', redirectToOriginalURL);
 
 Router.put('/update/:shortId', updateURL);
-
 module.exports = Router;
