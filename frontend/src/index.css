@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+input,textarea{
+  border: 1px solid gray;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
