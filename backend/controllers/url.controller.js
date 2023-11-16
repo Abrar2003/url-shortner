@@ -5,7 +5,7 @@ const Log = require("../models/accessLog.model");
 
 const shortenURL = async (req, res) => {
     try {
-        const { original_url, starting_date, expiration_date, title, description,stats } = req.body;
+        const { original_url, starting_date, expiration_date, title, description } = req.body;
 
          // Validate the original_url
         if (!validator.isURL(original_url)) {
@@ -30,7 +30,6 @@ const shortenURL = async (req, res) => {
             expiration_date,
             title,
             description,
-            stats,
         });
 
         await url.save();
