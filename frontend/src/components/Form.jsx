@@ -11,7 +11,7 @@ const Form = ({ onGenerate }) => {
 
   const handleGenerate = () => {
     // Validate the input
-    if (!originalUrl || !title || !description || !starting || !expiring) {
+    if (!originalUrl || !starting || !expiring) {
       setErrorMessage("All fields are required");
 
       // Clear error message after 2 seconds
