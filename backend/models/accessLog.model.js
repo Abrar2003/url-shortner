@@ -7,3 +7,4 @@ const accessLog_Schema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("logs", accessLog_Schema);
+
