@@ -3,7 +3,8 @@ import { useState } from "react";
 const EditModal = ({ isOpen, onClose, data }) => {
     const [formData, setFormData] = useState(data);
     const handleEdit = async () => {
-        onClose();
+        console.log("from data",data)
+        // onClose();
     }
     return (
         <>
@@ -32,20 +33,16 @@ const EditModal = ({ isOpen, onClose, data }) => {
                                         </h3>
                                         <div className="mt-2">
                                             <div className="mb-3">
-                                                <label className="mr-2" htmlFor="short_url">Sort Url:</label>
-                                                <span>{formData.short_url}</span>
-                                            </div>
-                                            <div className="mb-3">
                                                 <label className="mr-2" htmlFor="title">Title:</label>
-                                                <input type="text" />
+                                                <input type="text" value={data.title} />
                                             </div>
                                             <div className="mb-3">
                                                 <label className="mr-2" htmlFor="expire">Expire Date:</label>
-                                                <input type='date' />
+                                                <input type='date' value={data.expiration_date} />
                                             </div>
                                             <div  className="flex items-center ">
                                                 <label className="mr-2" htmlFor="description">Description:</label>
-                                                <textarea></textarea>
+                                                <textarea defaultValue={data.description}></textarea>
                                             </div>
                                         </div>
                                     </div>

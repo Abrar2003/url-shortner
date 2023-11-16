@@ -13,7 +13,7 @@ const Home = () => {
     // For now, let's just set it to a string representation of the form data
     try {
       const { originalUrl, title, description, starting, expiring } = formData;
-      const res = await axios.post("http://localhost:8000/url/short", {
+      const res = await axios.post("http://localhost:8000/short", {
         original_url: originalUrl,
         starting_date: starting,
         expiration_date: expiring,
