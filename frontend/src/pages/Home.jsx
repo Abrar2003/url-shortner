@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Form from "../components/Form";
 import axios from "axios";
 import StickyButton from "../components/StickyButton";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [output, setOutput] = useState("");
@@ -40,7 +41,9 @@ const Home = () => {
         </pre>
       </div>
       {/* Integrate the StickyButton component */}
-      <StickyButton onClick={scrollToTop} label="All URL's" />
+      <Link to={"/all-urls"}>
+        <StickyButton onClick={scrollToTop} label="All URL's" />
+      </Link>
     </div>
   );
 };

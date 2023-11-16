@@ -12,7 +12,7 @@ const PORT = process.env.PORT;
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.json());
-app.use("/url", urlRouter)
+app.use("/", urlRouter)
 app.use("/analytics", analyticsRouter)
 
 app.get("/", (req, res) => {

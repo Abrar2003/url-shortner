@@ -1,10 +1,8 @@
 import { useState } from "react";
+import axios from "axios";
 
-const StatusModal = ({ isOpen, onClose, data }) => {
+const StatusModal = ({ isOpen, onClose, data, updateStatus, index }) => {
     const [status, setStatus] = useState(data.status);
-    const updateStatus = async () => {
-        onClose();
-    }
     return (
         <>
             {isOpen && (
@@ -59,7 +57,10 @@ const StatusModal = ({ isOpen, onClose, data }) => {
                                 <button
                                     type="button"
                                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                    onClick={updateStatus}
+                                    onClick={() => {
+                                        updateStatus(status, data.short_id, index);
+                                        onClose();
+                                    }}
                                 >
                                     Update
                                 </button>

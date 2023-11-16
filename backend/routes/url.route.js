@@ -6,7 +6,7 @@ const { shortenURL, redirectToOriginalURL, updateURL, getShortUrlsByAppId, delet
 const Router = express.Router();
 
 // GET: all short URLs by App Id
-Router.get("/appId", getShortUrlsByAppId);
+Router.get("/appid", getShortUrlsByAppId);
 
 //DELETE: delete the short url by shortID
 Router.delete("/delete/:shortId", deleteShortUrl);
