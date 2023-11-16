@@ -13,7 +13,8 @@ const url_Schema = new mongoose.Schema({
     enum: ["active", "expired", "draft"],
     default: "active",
   },
-  stats: { type: { total_visitor: { type: Number, default: 0} }, required: true},
+  stats: { total_visitor: { type: Number, default: 0 } },
+
 }, {timestamps: true});
 
 
