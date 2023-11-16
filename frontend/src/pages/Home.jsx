@@ -1,17 +1,28 @@
 import React, { useState } from "react";
 import Form from "../components/Form";
+import axios from "axios";
 import StickyButton from "../components/StickyButton";
 
 const Home = () => {
   const [output, setOutput] = useState("");
 
-  const handleGenerate = (formData) => {
+  const handleGenerate = async (formData) => {
     // Handle the logic for generating output based on the form data
     // You can use the formData to generate the output as per your requirements
     // For now, let's just set it to a string representation of the form data
-    const { originalUrl } = formData;
-
-    setOutput(JSON.stringify({ originalUrl }, null, 2));
+    try {
+      const { originalUrl, title, description, starting, expiring } = formData;
+      const res = await axios.post("http://localhost:8000/url/short", {
+        original_url: originalUrl,
+        starting_date: starting,
+        expiration_date: expiring,
+        title,
+        description,
+      });
+      setOutput(res.data.short_url);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const scrollToTop = () => {

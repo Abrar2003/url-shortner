@@ -5,9 +5,6 @@ const { shortenURL, redirectToOriginalURL, updateURL  } = require('../controller
 
 const Router = express.Router();
 
-Router.get("/", test_url_controller);
-
-
 Router.post('/short', shortenURL);
 
 Router.get('/:shortId', redirectToOriginalURL);
