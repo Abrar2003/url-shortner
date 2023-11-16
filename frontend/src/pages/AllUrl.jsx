@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
-import { demoData } from "./DemoData.jsx";
 import StatusModal from "./StatusModal.jsx";
 import EditModal from "./EditModal.jsx";
 import StickyButton from "../components/StickyButton.jsx";
+import axios from "axios";
 import { Link } from "react-router-dom";
 export const AllUrl = () => {
   const [page, setPage] = useState(1);
   const [allUrl, setAllUrl] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [index, setIndex] = useState();
   // State Management For Status Change;
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const [statusModalData, setStatusModalData] = useState({});
@@ -32,11 +33,20 @@ export const AllUrl = () => {
     setIsEditModalOpen(false);
   };
 
+  const updateStatus = async (status, short_id, index) => {
+    const res = await axios.put(`http://localhost:8000/url/update/${short_id}`, {
+        status
+    })
+    allUrl[index].status = res.data.status
+    const updatedData = allUrl;
+    setAllUrl(updatedData);
+    getAllUrl();
+}
+
   const getAllUrl = async () => {
     setLoading(!loading);
-    // setAllUrl(demoData);
     try {
-        const res = await fetch(`http://localhost:8000?page=${page}&app_id`);
+        const res = await fetch(`http://localhost:8000/url/appid?page=${page}`);
         const data = await res.json();
         if (data) {
             setAllUrl(data)
@@ -72,7 +82,7 @@ export const AllUrl = () => {
                   className={index % 2 === 0 ? "bg-gray-100" : ""}
                 >
                   <td className="py-2 px-4 border-b">{index + 1}</td>
-                  <td className="py-2 px-4 border-b">{item.short_url}</td>
+                  <td className="py-2 px-4 border-b">{`localhost:8000/url/${item.short_id}`}</td>
                   <td className="py-2 px-4 border-b">{item.title}</td>
                   <td className="py-2 px-4 border-b">{item.status}</td>
                   <td className="py-2 px-4 border-b btn">
@@ -80,6 +90,7 @@ export const AllUrl = () => {
                       onClick={() => {
                         setStatusModalData(item);
                         openStatusModal();
+                        setIndex(index);
                       }}
                     >
                       Update Status
@@ -125,6 +136,8 @@ export const AllUrl = () => {
         isOpen={isStatusModalOpen}
         onClose={closeStatusModal}
         data={statusModalData}
+        updateStatus={updateStatus}
+        index={index}
       />
       <EditModal
         isOpen={isEditModalOpen}

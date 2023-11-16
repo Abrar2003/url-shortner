@@ -76,7 +76,7 @@ const updateURL = async (req, res) => {
     await url.save();
 
     // Return the updated fields in the response
-    res.json(updateFields);
+    res.send(updateFields);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -84,47 +84,51 @@ const updateURL = async (req, res) => {
 };
 
 const getShortUrlsByAppId = async (req, res) => {
-    const { app_id } = req.query;
-    const { page } = req.query;
-  
-    try {
-      const pageSize = 10; // Adjust the page size as needed
-   //   const result = await URL.getByAppId(app_id, page, pageSize);
-   
-   const result = await URL.find({
-    app_id
-   }).skip(page*pageSize).limit(pageSize)
+  // const { app_id } = req.query;
+  const { page } = req.query;
 
-      res.json(result);
-    } catch (error) {
-      console.error("Error fetching URLs by App Id:", error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  };
-  
-  // Controller to delete short URL by shortId
+  try {
+    const pageSize = 10; // Adjust the page size as needed
+    //   const result = await URL.getByAppId(app_id, page, pageSize);
+
+    const result = await URL.find()
+      .skip(page * pageSize - 10)
+      .limit(pageSize);
+    res.send(result)
+  } catch (error) {
+    console.error("Error fetching URLs by App Id:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// Controller to delete short URL by shortId
 const deleteShortUrl = async (req, res) => {
-    const { shortId } = req.params;
-  
-    try {
-      const deletedUrl = await URL.findOneAndDelete({ short_id: shortId });
-  
-      if (deletedUrl) {
-        res.json({
-          success: true,
-          message: "URL deleted successfully",
-        });
-      } else {
-        res.status(404).json({
-          success: false,
-          message: "URL not found",
-        });
-      }
-    } catch (error) {
-      console.error("Error deleting URL by shortId:", error);
-      res.status(500).json({ success: false, message: "Internal Server Error" });
-    }
-  };
-  
+  const { shortId } = req.params;
 
-module.exports = { shortenURL, redirectToOriginalURL, updateURL, getShortUrlsByAppId, deleteShortUrl };
+  try {
+    const deletedUrl = await URL.findOneAndDelete({ short_id: shortId });
+
+    if (deletedUrl) {
+      res.json({
+        success: true,
+        message: "URL deleted successfully",
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "URL not found",
+      });
+    }
+  } catch (error) {
+    console.error("Error deleting URL by shortId:", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
+module.exports = {
+  shortenURL,
+  redirectToOriginalURL,
+  updateURL,
+  getShortUrlsByAppId,
+  deleteShortUrl,
+};
