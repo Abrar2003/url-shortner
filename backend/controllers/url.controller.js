@@ -1,44 +1,60 @@
-const shortid = require("shortid");
-const URL = require("../models/url.model");
-const LOG = require("../models/accessLog.model");
+const shortid = require('shortid');
+const validator = require('validator')
+const URL = require('../models/url.model');
+const Log = require("../models/accessLog.model");
 
 const shortenURL = async (req, res) => {
-  try {
-    const { original_url, starting_date, expiration_date, title, description } =
-      req.body;
-    const short_id = shortid.generate();
-    const DOMAIN = process.env.DOMAIN;
-    const PORT = process.env.PORT;
+    try {
+        const { original_url, starting_date, expiration_date, title, description } = req.body;
 
-    // Create a new URL entry in the database
-    const url = new URL({
-      original_url,
-      short_id,
-      starting_date,
-      expiration_date,
-      title,
-      description,
-    });
+         // Validate the original_url
+        if (!validator.isURL(original_url)) {
+            return res.status(400).json({ error: 'Invalid URL format' });
+        }
 
-    await url.save();
+        // Generate a unique short_id
+        let short_id;
+        do {
+            short_id = shortid.generate();
+        } while (await URL.exists({ short_id }));
 
-    res.json({ short_url: `${DOMAIN}:${PORT}/url/${short_id}` });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+        const DOMAIN = process.env.DOMAIN
+        const PORT = process.env.PORT
+
+
+        // Create a new URL entry in the database
+        const url = new URL({
+            original_url,
+            short_id,
+            starting_date,
+            expiration_date,
+            title,
+            description,
+        });
+
+        await url.save();
+
+        res.json({ short_url: `${DOMAIN}:${PORT}/url/${short_id}` });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 };
 
 const redirectToOriginalURL = async (req, res) => {
-  try {
-    const { shortId } = req.params;
-    const ip = req.ip;
-    // Find the URL in the database using the short_id
-    const url = await URL.findOne({ short_id: shortId });
+    try {
+        const { shortId } = req.params;
+        const ip_address = req.ip;
+        
 
-    if (!url) {
-      return res.status(404).json({ error: "URL not found" });
-    }
+        // Check for Invalid shortId
+        if (!validator.isAlphanumeric(shortId)) {
+            return res.status(400).json({ error: 'Invalid shortId format' });
+        }
+
+        // Find the URL in the database using the short_id
+        const url = await URL.findOne({ short_id: shortId });
+
 
     // Increment the total_visitor count in the stats
     url.stats.total_visitor += 1;
@@ -55,10 +71,15 @@ const redirectToOriginalURL = async (req, res) => {
   }
 };
 
-const updateURL = async (req, res) => {
-  try {
-    const { shortId } = req.params;
-    const updateFields = req.body;
+        if (!url) {
+            return res.status(404).json({ error: 'URL not found' });
+        }
+        const log = await Log.create({url_id: url._id, ip_address, visit_time: Date.now()});
+        // Handling Expired URLs
+        if (url.expiration_date && new Date(url.expiration_date) < new Date()) {
+            return res.status(400).json({ error: 'URL has expired' });
+        }
+
 
     // Find the URL in the database using the short_id
     const url = await URL.findOne({ short_id: shortId });
@@ -67,9 +88,31 @@ const updateURL = async (req, res) => {
       return res.status(404).json({ error: "URL not found" });
     }
 
-    // Update the fields in the database
-    for (const [key, value] of Object.entries(updateFields)) {
-      url[key] = value;
+const updateURL = async (req, res) => {
+    try {
+        const { shortId } = req.params;
+        const updateFields = req.body;
+
+        // Handling Non-Existing URLs
+        const url = await URL.findOne({ short_id: shortId });
+        if (!url) {
+            return res.status(404).json({ error: 'URL not found' });
+        }
+
+        // Update the fields in the database
+        for (const [key, value] of Object.entries(updateFields)) {
+            url[key] = value;
+        }
+
+        // Save the updated URL
+        await url.save();
+
+        // Return the updated fields in the response
+        res.json(updateFields);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+
     }
 
     // Save the updated URL
