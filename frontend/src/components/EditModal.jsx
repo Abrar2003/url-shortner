@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const EditModal = ({ isOpen, onClose, data }) => {
     const [formData, setFormData] = useState(data);
+
+    // Handle Edit Here
     const handleEdit = async () => {
         onClose();
     }
+   useEffect(()=>{
+    setFormData({...data});
+   },[data])
     return (
         <>
             {isOpen && (
@@ -37,15 +42,15 @@ const EditModal = ({ isOpen, onClose, data }) => {
                                             </div>
                                             <div>
                                                 <label htmlFor="title">Title:</label>
-                                                <input type="text" />
+                                                <input type="text"  onChange={(e)=>setFormData({...formData,title:e.target.value})}/>
                                             </div>
                                             <div>
                                                 <label htmlFor="expire">Expire Date:</label>
-                                                <input type='date' />
+                                                <input type='date'  onChange={(e)=>setFormData({...formData,expiration_date:e.target.value})}/>
                                             </div>
                                             <div  className="flex items-center">
                                                 <label htmlFor="description">Description:</label>
-                                                <textarea></textarea>
+                                                <textarea onChange={(e)=>setFormData({...formData,description:e.target.value})}></textarea>
                                             </div>
                                         </div>
                                     </div>

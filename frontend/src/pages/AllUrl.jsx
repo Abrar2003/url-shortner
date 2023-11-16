@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
-import { demoData } from './DemoData.jsx'
-import StatusModal from './StatusModal.jsx';
-import EditModal from './EditModal.jsx';
+import { demoData } from '../components/DemoData.jsx'
+import StatusModal from '../components/StatusModal.jsx';
+import EditModal from '../components/EditModal.jsx';
+import {useNavigate} from 'react-router-dom'
 export const AllUrl = () => {
+    // State Management
     const [page, setPage] = useState(1);
     const [allUrl, setAllUrl] = useState([]);
     const [loading, setLoading] = useState(false);
+    const navigate=useNavigate();
     // State Management For Status Change;
     const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
     const [statusModalData,setStatusModalData]=useState({});
@@ -67,8 +70,12 @@ export const AllUrl = () => {
                             {allUrl.map((item, index) => (
                                 <tr key={index} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
                                     <td className="py-2 px-4 border-b">{index+1}</td>
-                                    <td className="py-2 px-4 border-b">{item.short_url}</td>
-                                    <td className="py-2 px-4 border-b">{item.title}</td>
+                                    <td className="py-2 px-4 border-b">
+                                        <a href={item.short_url}>{item.short_url}</a>
+                                    </td>
+                                    <td className="py-2 px-4 border-b">
+                                        <button onClick={()=>navigate(`/analytics/${item?._id}`)}>{item.title}</button>
+                                    </td>
                                     <td className="py-2 px-4 border-b">{item.status}</td>
                                     <td className="py-2 px-4 border-b">
                                         <button onClick={()=>{
@@ -78,7 +85,7 @@ export const AllUrl = () => {
                                     </td>
                                     <td className="py-2 px-4 border-b">
                                         <button onClick={()=>{
-                                            setEditModalData(item);
+                                            setEditModalData({...item});
                                             openEditModal();
                                         }}>Edit</button>
                                     </td>
