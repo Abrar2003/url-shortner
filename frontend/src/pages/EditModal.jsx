@@ -31,20 +31,20 @@ const EditModal = ({ isOpen, onClose, data }) => {
                                             Update Status
                                         </h3>
                                         <div className="mt-2">
-                                            <div>
-                                                <label htmlFor="short_url">Sort Url:</label>
+                                            <div className="mb-3">
+                                                <label className="mr-2" htmlFor="short_url">Sort Url:</label>
                                                 <span>{formData.short_url}</span>
                                             </div>
-                                            <div>
-                                                <label htmlFor="title">Title:</label>
+                                            <div className="mb-3">
+                                                <label className="mr-2" htmlFor="title">Title:</label>
                                                 <input type="text" />
                                             </div>
-                                            <div>
-                                                <label htmlFor="expire">Expire Date:</label>
+                                            <div className="mb-3">
+                                                <label className="mr-2" htmlFor="expire">Expire Date:</label>
                                                 <input type='date' />
                                             </div>
-                                            <div  className="flex items-center">
-                                                <label htmlFor="description">Description:</label>
+                                            <div  className="flex items-center ">
+                                                <label className="mr-2" htmlFor="description">Description:</label>
                                                 <textarea></textarea>
                                             </div>
                                         </div>
