@@ -34,25 +34,28 @@ export const AllUrl = () => {
   };
 
   const updateStatus = async (status, short_id, index) => {
-    const res = await axios.put(`http://localhost:8000/url/update/${short_id}`, {
-        status
-    })
-    allUrl[index].status = res.data.status
+    const res = await axios.put(
+      `http://localhost:8000/url/update/${short_id}`,
+      {
+        status,
+      }
+    );
+    allUrl[index].status = res.data.status;
     const updatedData = allUrl;
     setAllUrl(updatedData);
     getAllUrl();
-}
+  };
 
   const getAllUrl = async () => {
     setLoading(!loading);
     try {
-        const res = await fetch(`http://localhost:8000/url/appid?page=${page}`);
-        const data = await res.json();
-        if (data) {
-            setAllUrl(data)
-        }
+      const res = await fetch(`http://localhost:8000/url/appid?page=${page}`);
+      const data = await res.json();
+      if (data) {
+        setAllUrl(data);
+      }
     } catch (err) {
-        console.log(err)
+      console.log(err);
     }
     setLoading(!loading);
   };
@@ -82,7 +85,13 @@ export const AllUrl = () => {
                   className={index % 2 === 0 ? "bg-gray-100" : ""}
                 >
                   <td className="py-2 px-4 border-b">{index + 1}</td>
-                  <td className="py-2 px-4 border-b">{`localhost:8000/url/${item.short_id}`}</td>
+
+                  {/* <td className="py-2 px-4 border-b" >{`localhost:8000/url/${item.short_id}`}</td> */}
+                  <td className="py-2 px-4 border-b btn">
+                    <button onClick={() => {}}>
+                      {`localhost:8000/url/${item.short_id}`}
+                    </button>
+                  </td>
                   <td className="py-2 px-4 border-b">{item.title}</td>
                   <td className="py-2 px-4 border-b">{item.status}</td>
                   <td className="py-2 px-4 border-b btn">
