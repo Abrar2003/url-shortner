@@ -1,7 +1,7 @@
 const shortid = require('shortid');
 const validator = require('validator')
 const URL = require('../models/url.model');
-
+const Log = require("../models/accessLog.model");
 
 const shortenURL = async (req, res) => {
     try {
@@ -46,6 +46,8 @@ const shortenURL = async (req, res) => {
 const redirectToOriginalURL = async (req, res) => {
     try {
         const { shortId } = req.params;
+        const ip_address = req.ip;
+        
 
         // Check for Invalid shortId
         if (!validator.isAlphanumeric(shortId)) {
@@ -59,7 +61,7 @@ const redirectToOriginalURL = async (req, res) => {
         if (!url) {
             return res.status(404).json({ error: 'URL not found' });
         }
-
+        const log = await Log.create({url_id: url._id, ip_address, visit_time: Date.now()});
         // Handling Expired URLs
         if (url.expiration_date && new Date(url.expiration_date) < new Date()) {
             return res.status(400).json({ error: 'URL has expired' });
