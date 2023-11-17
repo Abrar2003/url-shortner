@@ -33,23 +33,31 @@ export const AllUrl = () => {
     setIsEditModalOpen(false);
   };
 
+  // const handleEdit = (data, )
+
   const updateStatus = async (status, short_id, index) => {
-    const res = await axios.put(
-      `http://localhost:8000/url/update/${short_id}`,
-      {
-        status,
-      }
-    );
+    const res = await axios.put(`http://localhost:8000/update/${short_id}`, {
+      status,
+    });
     allUrl[index].status = res.data.status;
     const updatedData = allUrl;
     setAllUrl(updatedData);
     getAllUrl();
   };
 
+  const handleEdit = async (id, formData) => {
+    try {
+      const res = await axios.put(`http://localhost:8000/update/${id}`, formData);
+      getAllUrl();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const getAllUrl = async () => {
     setLoading(!loading);
     try {
-      const res = await fetch(`http://localhost:8000/url/appid?page=${page}`);
+      const res = await fetch(`http://localhost:8000/appid?page=${page}`);
       const data = await res.json();
       if (data) {
         setAllUrl(data);
@@ -74,8 +82,9 @@ export const AllUrl = () => {
                 <th className="py-2 px-4 border-b">Short URL</th>
                 <th className="py-2 px-4 border-b">Title</th>
                 <th className="py-2 px-4 border-b">Status</th>
-                <th className="py-2 px-4 border-b">Status</th>
+                <th className="py-2 px-4 border-b">Update Status</th>
                 <th className="py-2 px-4 border-b">Edit</th>
+                <th className="py-2 px-4 border-b">View Details</th>
               </tr>
             </thead>
             <tbody>
@@ -96,9 +105,10 @@ export const AllUrl = () => {
                   <td className="py-2 px-4 border-b">{item.status}</td>
                   <td className="py-2 px-4 border-b btn">
                     <button
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                       onClick={() => {
-                        setStatusModalData(item);
                         openStatusModal();
+                        setStatusModalData(item);
                         setIndex(index);
                       }}
                     >
@@ -107,13 +117,24 @@ export const AllUrl = () => {
                   </td>
                   <td className="py-2 px-4 border-b">
                     <button
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                       onClick={() => {
-                        setEditModalData(item);
                         openEditModal();
+                        setEditModalData(item);
+                        setIndex(index);
                       }}
                     >
                       Edit
                     </button>
+                  </td>
+                  <td className="py-2 px-4 border-b">
+                    <Link to={`/visitor-info/${item.short_id}`}>
+                    <button
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                      >
+                      Details
+                    </button>
+                      </Link>
                   </td>
                 </tr>
               ))}
@@ -152,6 +173,7 @@ export const AllUrl = () => {
         isOpen={isEditModalOpen}
         onClose={closeEditModal}
         data={editModalData}
+        handleEdit={handleEdit}
       />
       <Link to={"/"}>
         <StickyButton label={"Go back"} />

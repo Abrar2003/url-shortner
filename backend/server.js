@@ -5,7 +5,7 @@ require("dotenv").config();
 const urlRouter = require("./routes/url.route");
 const analyticsRouter = require("./routes/analytics.route");
 
-connectDB();
+
 const app = express();
 const PORT = process.env.PORT;
 
@@ -20,6 +20,7 @@ app.get("/", (req, res) => {
     res.send({message: `Hello, ${ip}`});
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async() => {
+  await connectDB();
   console.log(`server started on port ${PORT}`);
 });

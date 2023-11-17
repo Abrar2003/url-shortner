@@ -3,9 +3,9 @@ const URL = require('../models/url.model');
 // Analytics Endpoint
 const getURLAnalytics= async (req, res) => {
     try {
-      const short_url = req.params.shortID;
-  
-      const urlDetails = await URL.findOne({ short_url });
+      const {short_id} = req.params;
+      
+      const urlDetails = await URL.findOne({ short_id });
   
       if (!urlDetails) {
         return res.status(404).json({ error: 'URL not found' });
@@ -19,10 +19,9 @@ const getURLAnalytics= async (req, res) => {
   
       const analyticsData = {
         original_url: urlDetails.original_url,
-        short_url: urlDetails.short_url,
+        short_id: urlDetails.short_id,
         expiration_date: urlDetails.expiration_date,
         starting_date: urlDetails.starting_date,
-        app_id: urlDetails.app_id,
         title: urlDetails.title,
         description: urlDetails.description,
         status: urlDetails.status,
@@ -31,8 +30,10 @@ const getURLAnalytics= async (req, res) => {
           unique_visitors: uniqueVisitors,
         },
       };
-  
-      res.json(analyticsData);
+      
+      res.json({
+        url_details:  analyticsData,
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -53,11 +54,11 @@ function calculateUniqueVisitors(accessLogs) {
 // Get All Visitors Endpoint
 const getAllVisitors=  async (req, res) => {
     try {
-      const short_url = req.params.shortId;
+      const {short_id} = req.params;
       const page = parseInt(req.query.page) || 1;
-      const limit = 10; // Number of visitors per page
+      const limit = 6; // Number of visitors per page
   
-      const urlDetails = await URL.findOne({ short_url });
+      const urlDetails = await URL.findOne({ short_id });
   
       if (!urlDetails) {
         return res.status(404).json({ error: 'URL not found' });
