@@ -9,7 +9,7 @@ const AllRoutes = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/all-urls" element={<AllUrl />} />
-      <Route path="/visitor-info" element={<VisitorInfo />} />
+      <Route path="/visitor-info/:short_id" element={<VisitorInfo />} />
     </Routes>
   );
 };

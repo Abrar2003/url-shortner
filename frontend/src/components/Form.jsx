@@ -5,14 +5,13 @@ const Form = ({ onGenerate }) => {
   const [originalUrl, setOriginalUrl] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [starting, setStarting] = useState("");
   const [expiring, setExpiring] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleGenerate = () => {
     // Validate the input
-    if (!originalUrl || !starting || !expiring) {
-      setErrorMessage("All fields are required");
+    if (!originalUrl) {
+      setErrorMessage("Original URL is requried");
 
       // Clear error message after 2 seconds
       setTimeout(() => {
@@ -23,7 +22,7 @@ const Form = ({ onGenerate }) => {
     }
 
     // Check if the starting and expiring dates have a minimum difference of 24 hours
-    const startTimestamp = new Date(starting).getTime();
+    const startTimestamp = new Date().getTime();
     const expireTimestamp = new Date(expiring).getTime();
 
     if (expireTimestamp - startTimestamp < 24 * 60 * 60 * 1000) {
@@ -46,7 +45,6 @@ const Form = ({ onGenerate }) => {
       originalUrl,
       title,
       description,
-      starting,
       expiring,
     });
   };
@@ -99,21 +97,7 @@ const Form = ({ onGenerate }) => {
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="starting"
-          >
-            Starting Date:
-          </label>
-          <input
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="starting"
-            type="date"
-            value={starting}
-            onChange={(e) => setStarting(e.target.value)}
-          />
-        </div>
+        
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
