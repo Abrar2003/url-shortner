@@ -27,7 +27,7 @@ const shortenURL = async (req, res) => {
       original_url,
       short_id,
       starting_date: Date.now(),
-      expiration_date: expiration_date || null,
+      expiration_date: expiration_date || "No expiration date",
       title,
       description,
     });

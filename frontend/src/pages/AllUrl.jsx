@@ -45,6 +45,15 @@ export const AllUrl = () => {
     getAllUrl();
   };
 
+  const handleEdit = async (id, formData) => {
+    try {
+      const res = await axios.put(`http://localhost:8000/update/${id}`, formData);
+      getAllUrl();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const getAllUrl = async () => {
     setLoading(!loading);
     try {
@@ -164,6 +173,7 @@ export const AllUrl = () => {
         isOpen={isEditModalOpen}
         onClose={closeEditModal}
         data={editModalData}
+        handleEdit={handleEdit}
       />
       <Link to={"/"}>
         <StickyButton label={"Go back"} />
