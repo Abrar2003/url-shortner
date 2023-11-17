@@ -64,10 +64,6 @@ const getLogsData = async (id, page) => {
             <p>{url_details.expiration_date}</p>
           </div>
           <div>
-            <p className="font-bold">Starting Date</p>
-            <p>{url_details.starting_date}</p>
-          </div>
-          <div>
             <p className="font-bold">Title</p>
             <p>{url_details.title || "No Title"}</p>
           </div>

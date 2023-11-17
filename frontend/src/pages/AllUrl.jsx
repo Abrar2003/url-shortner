@@ -46,6 +46,8 @@ export const AllUrl = () => {
   };
 
   const handleEdit = async (id, formData) => {
+    console.log('calling',id,formData);
+
     try {
       const res = await axios.put(`http://localhost:8000/update/${id}`, formData);
       getAllUrl();
