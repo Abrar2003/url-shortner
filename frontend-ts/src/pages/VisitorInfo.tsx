@@ -17,6 +17,9 @@ interface UrlDetails {
     unique_visitors: number;
   };
 }
+interface  AxiosResponse{
+  url_details:UrlDetails
+}
 
 interface VisitorData {
   _id: string;
@@ -26,14 +29,14 @@ interface VisitorData {
 
 const VisitorInfo: React.FC = () => {
   const { short_id } = useParams<{ short_id: string }>();
-  const [urlDetails, setUrlDetails] = useState<UrlDetails>({});
+  const [urlDetails, setUrlDetails] = useState<UrlDetails>({} as UrlDetails);
   const [visitors, setVisitors] = useState<VisitorData[]>([]);
   const [page, setPage] = useState<number>(1);
 
   const getUrlDetails = async (id: string) => {
     try {
-      const { data } = await axios.get<UrlDetails>(`http://localhost:8000/analytics/${id}`);
-      setUrlDetails(data);
+      const { data } = await axios.get<AxiosResponse>(`http://localhost:8000/analytics/${id}`);
+      setUrlDetails(data.url_details);
     } catch (error) {
       console.log(error);
     }
@@ -49,9 +52,12 @@ const VisitorInfo: React.FC = () => {
   };
 
   useEffect(() => {
-    getUrlDetails(short_id);
-    getLogsData(short_id, page);
+    if (short_id) {
+      getUrlDetails(short_id);
+      getLogsData(short_id, page);
+    }
   }, [page, short_id]);
+  console.log(urlDetails);
 
   return (
     <div className="container mx-auto p-8">
@@ -134,7 +140,7 @@ const VisitorInfo: React.FC = () => {
         </button>
       </div>
       <Link to={"/all-urls"}>
-        <StickyButton label={"Go back"} />
+        <StickyButton onClick={()=>{}} label={"Go back"} />
       </Link>
     </div>
   );

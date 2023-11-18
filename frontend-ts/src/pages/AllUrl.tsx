@@ -16,16 +16,14 @@ const AllUrl: React.FC = () => {
     const [page, setPage] = useState<number>(1);
     const [allUrl, setAllUrl] = useState<UrlItem[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-    const [index, setIndex] = useState<number | undefined>();
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
-    const [editModalData, setEditModalData] = useState<UrlItem | Record<string, any>>(
+    const [editModalData, setEditModalData] = useState<UrlItem>(
         {} as UrlItem
     );
 
-    const openEditModal = (item: UrlItem, index: number) => {
+    const openEditModal = (item: UrlItem) => {
         setIsEditModalOpen(true);
         setEditModalData(item);
-        setIndex(index);
     };
 
     const closeEditModal = () => {
@@ -93,7 +91,7 @@ const AllUrl: React.FC = () => {
                                     <td className="py-2 px-4 border-b">
                                         <button
                                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                            onClick={() => openEditModal(item, index)}
+                                            onClick={() => openEditModal(item)}
                                         >
                                             Edit
                                         </button>
@@ -140,7 +138,7 @@ const AllUrl: React.FC = () => {
                 handleEdit={handleEdit}
             />
             <Link to={"/"}>
-                <StickyButton label={"Go back"} />
+                <StickyButton onClick={()=>{}} label={"Go back"} />
             </Link>
         </>
     );
