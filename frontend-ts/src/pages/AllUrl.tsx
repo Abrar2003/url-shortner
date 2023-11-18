@@ -82,7 +82,7 @@ const AllUrl: React.FC = () => {
                                 >
                                     <td className="py-2 px-4 border-b">{index + 1}</td>
                                     <td className="py-2 px-4 border-b btn">
-                                        <a href={`http://localhost:8000/${item.short_id}`} className="text-decor-none cursor-pointer">
+                                        <a href={`http://localhost:8000/${item.short_id}`} className="cursor-pointer text-blue-500 underline italic">
                                             {`localhost:8000/${item.short_id}`}
                                         </a>
                                     </td>
