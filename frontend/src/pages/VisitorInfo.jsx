@@ -61,11 +61,7 @@ const getLogsData = async (id, page) => {
           </div>
           <div>
             <p className="font-bold">Expiration Date</p>
-            <p>{url_details.expiration_date}</p>
-          </div>
-          <div>
-            <p className="font-bold">Starting Date</p>
-            <p>{url_details.starting_date}</p>
+            <p>{url_details.expiration_date || "No expiration date"}</p>
           </div>
           <div>
             <p className="font-bold">Title</p>
@@ -78,6 +74,14 @@ const getLogsData = async (id, page) => {
           <div>
             <p className="font-bold">Status</p>
             <p>{url_details.status}</p>
+          </div>
+          <div>
+            <p className="font-bold">Total Visitors</p>
+            <p>{url_details?.stats?.total_visitors || 0}</p>
+          </div>
+          <div>
+            <p className="font-bold">Total Unique Visitors</p>
+            <p>{url_details?.stats?.unique_visitors || 0}</p>
           </div>
         </div>
       </div>

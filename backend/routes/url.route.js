@@ -1,5 +1,6 @@
 const express = require("express");
 const URL = require("../models/url.model");
+const is_expired = require("../middleware/url.middleware");
 
 const { shortenURL, redirectToOriginalURL, updateURL, getShortUrlsByAppId, deleteShortUrl } = require('../controllers/url.controller');
 
@@ -15,7 +16,7 @@ Router.delete("/delete/:shortId", deleteShortUrl);
 Router.post('/short', shortenURL);
 
 //GET: Redirect to the original url by shortID
-Router.get('/:shortId', redirectToOriginalURL);
+Router.get('/:shortId', is_expired, redirectToOriginalURL);
 
 //PUT: update url details by shortID
 Router.put('/update/:shortId', updateURL);
