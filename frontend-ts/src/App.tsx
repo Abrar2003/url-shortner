@@ -1,8 +1,12 @@
+import { BrowserRouter as Router } from "react-router-dom";
+import AllRoutes from "./components/AllRoutes";
 
-const App = () => {
+function App(): JSX.Element {
   return (
-    <div className='text-red-500'>App</div>
-  )
+    <Router>
+      <AllRoutes />
+    </Router>
+  );
 }
 
-export default App
+export default App;
