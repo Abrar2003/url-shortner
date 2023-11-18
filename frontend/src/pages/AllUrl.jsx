@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import StatusModal from "./StatusModal.jsx";
 import EditModal from "./EditModal.jsx";
 import StickyButton from "../components/StickyButton.jsx";
 import axios from "axios";
@@ -84,7 +83,6 @@ export const AllUrl = () => {
                 <th className="py-2 px-4 border-b">Short URL</th>
                 <th className="py-2 px-4 border-b">Title</th>
                 <th className="py-2 px-4 border-b">Status</th>
-                <th className="py-2 px-4 border-b">Update Status</th>
                 <th className="py-2 px-4 border-b">Edit</th>
                 <th className="py-2 px-4 border-b">View Details</th>
               </tr>
@@ -99,24 +97,12 @@ export const AllUrl = () => {
 
                   {/* <td className="py-2 px-4 border-b" >{`localhost:8000/url/${item.short_id}`}</td> */}
                   <td className="py-2 px-4 border-b btn">
-                    <button onClick={() => {}}>
-                      {`localhost:8000/url/${item.short_id}`}
-                    </button>
+                    <a href={`http://localhost:8000/${item.short_id}`} className="text-decor-none cursor-pointer">
+                      {`localhost:8000/${item.short_id}`}
+                    </a>
                   </td>
                   <td className="py-2 px-4 border-b">{item.title}</td>
                   <td className="py-2 px-4 border-b">{item.status}</td>
-                  <td className="py-2 px-4 border-b btn">
-                    <button
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                      onClick={() => {
-                        openStatusModal();
-                        setStatusModalData(item);
-                        setIndex(index);
-                      }}
-                    >
-                      Update Status
-                    </button>
-                  </td>
                   <td className="py-2 px-4 border-b">
                     <button
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -164,13 +150,6 @@ export const AllUrl = () => {
           </div>
         </div>
       </div>
-      <StatusModal
-        isOpen={isStatusModalOpen}
-        onClose={closeStatusModal}
-        data={statusModalData}
-        updateStatus={updateStatus}
-        index={index}
-      />
       <EditModal
         isOpen={isEditModalOpen}
         onClose={closeEditModal}
