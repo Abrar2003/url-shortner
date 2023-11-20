@@ -61,9 +61,9 @@ const AllUrl: React.FC = () => {
     return (
         <>
             <div>
-                <h1 className="text-3xl text-center font-bold">All Short Url Page</h1>
-                <div className="container mx-auto mt-8">
-                    <table className="min-w-full bg-white border border-gray-300 text-center">
+                <h1 className="text-3xl md:text-center ml-4 font-bold text-blue-600">Shorten Links:-</h1>
+                <div className="container mx-auto md:mt-6 mt-3">
+                    <table className="min-w-full bg-white border border-gray-300 text-center hidden md:table">
                         <thead>
                             <tr>
                                 <th className="py-2 px-4 border-b">Sl No.</th>
@@ -103,12 +103,53 @@ const AllUrl: React.FC = () => {
                                             >
                                                 Details
                                             </button>
-                                        </Link>
+                                        </Link>   
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
+                    {/* For small screen */}
+                    <div className="h-[86vh] overflow-y-scroll scrollbar-hide px-1 md:hidden">
+                        {allUrl.map((item, index) => (
+                            <div className="max-w-md mx-auto bg-white rounded-md overflow-hidden border border-solid border-gray-500 mb-2" key={index}>
+                                <div className="px-6 pt-6">
+                                    <h2 className="text-xl font-bold mb-2 capitalize">{item.title}</h2>
+                                    <div className="flex flex-col text-sm">
+                                        <span className="mr-2">
+                                            Short Url: <a href={`http://localhost:8000/${item.short_id}`} className="cursor-pointer text-blue-500 underline italic">localhost:8000/{item.short_id}</a>
+                                        </span>
+                                        <span className="mr-2">
+                                            Status: {item.status}
+                                        </span>
+                                        <span>
+                                            Expires on: {item.expiration_date}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-end gap-4 mt-2">
+                                        <Link to={`/visitor-info/${item.short_id}`}>
+                                            <button
+                                                className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-1 rounded focus:outline-none focus:shadow-outline"
+                                            >
+                                                Details
+                                            </button>
+                                        </Link>
+                                        <button
+                                            className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-1 rounded focus:outline-none focus:shadow-outline"
+                                            onClick={() => openEditModal(item)}
+                                        >
+                                            Edit
+                                        </button>
+                                    </div>
+                                    <div className="flex justify-center items-center">
+                                        {`<-${page * index + 1}->`}
+                                    </div>
+                                </div>
+                            </div>
+
+                        ))}
+                    </div>
+                    {/*  */}
                     <div className="m-auto mt-3 flex justify-center items-center">
                         <button
                             className="border bottom-1 border-gray-500 rounded px-2 py-1"
@@ -138,7 +179,7 @@ const AllUrl: React.FC = () => {
                 handleEdit={handleEdit}
             />
             <Link to={"/"}>
-                <StickyButton onClick={()=>{}} label={"Go back"} />
+                <StickyButton onClick={() => { }} label={"Go back"} />
             </Link>
         </>
     );
