@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./form2.css";
 
 interface CopyButtonProps {
@@ -7,8 +7,10 @@ interface CopyButtonProps {
 
 const CopyButton: React.FC<CopyButtonProps> = ({ textToCopy }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const [ is_copied, setIs_copied] = useState<boolean>(false)
 
   const copyToClipboard = () => {
+    setIs_copied(true);
     if (textAreaRef.current) {
       // Create a temporary textarea element
       const textarea = document.createElement("textarea");
@@ -32,6 +34,9 @@ const CopyButton: React.FC<CopyButtonProps> = ({ textToCopy }) => {
 
         // Clean up
         document.body.removeChild(textarea);
+        setInterval(() => {
+            setIs_copied(false);
+        }, 3000)
       }
     }
   };
@@ -48,7 +53,7 @@ const CopyButton: React.FC<CopyButtonProps> = ({ textToCopy }) => {
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         onClick={copyToClipboard}
       >
-        Copy URL
+        {is_copied? "URL Copied" : "Copy URL"}
       </button>
     </div>
   );
