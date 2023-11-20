@@ -37,12 +37,12 @@ const getExpirationDate = (expiration_date) => {
     return null;
 };
 exports.getExpirationDate = getExpirationDate;
-const createNewURL = (original_url, short_id, expiration_date, title, description) => {
+const createNewURL = (original_url, short_id, expirationDate, title, description) => {
     return new url_model_1.default({
         original_url,
         short_id,
         starting_date: Date.now(),
-        expiration_date: expiration_date ? new Date(expiration_date) : undefined,
+        expiration_date: expirationDate ? new Date(expirationDate) : undefined,
         title,
         description,
     });

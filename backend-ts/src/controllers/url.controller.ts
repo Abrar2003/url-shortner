@@ -44,7 +44,7 @@ const shortenURL = async (req: Request, res: Response): Promise<void> => {
     const expirationDate = getExpirationDate(expiration_date);
 
     // Create a new URL entry in the database
-    const url = createNewURL(original_url, short_id, expiration_date, title, description);
+    const url = createNewURL(original_url, short_id, expirationDate, title, description);
 
     await url.save();
 
