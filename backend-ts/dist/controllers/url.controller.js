@@ -42,7 +42,7 @@ const shortenURL = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const short_id = yield (0, createUrl_service_1.generateUniqueShortID)();
         const expirationDate = (0, createUrl_service_1.getExpirationDate)(expiration_date);
         // Create a new URL entry in the database
-        const url = (0, createUrl_service_1.createNewURL)(original_url, short_id, expiration_date, title, description);
+        const url = (0, createUrl_service_1.createNewURL)(original_url, short_id, expirationDate, title, description);
         yield url.save();
         res.json({ short_url: `${DOMAIN}/${short_id}` });
     }

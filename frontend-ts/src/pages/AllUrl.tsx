@@ -1,68 +1,67 @@
 import React, { useState, useEffect } from "react";
+// import "./AllUrl.css";
 import EditModal from "./EditModal";
 import StickyButton from "../components/StickyButton";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
 interface UrlItem {
-    short_id: string;
-    title: string;
-    status: string;
-    description: string;
-    expiration_date: string;
+  short_id: string;
+  title: string;
+  status: string;
+  description: string;
+  expiration_date: string;
 }
 
 const AllUrl: React.FC = () => {
-    const [page, setPage] = useState<number>(1);
-    const [allUrl, setAllUrl] = useState<UrlItem[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
-    const [editModalData, setEditModalData] = useState<UrlItem>(
-        {} as UrlItem
-    );
+  const [page, setPage] = useState<number>(1);
+  const [allUrl, setAllUrl] = useState<UrlItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [editModalData, setEditModalData] = useState<UrlItem>({} as UrlItem);
 
-    const openEditModal = (item: UrlItem) => {
-        setIsEditModalOpen(true);
-        setEditModalData(item);
-    };
+  const openEditModal = (item: UrlItem) => {
+    setIsEditModalOpen(true);
+    setEditModalData(item);
+  };
 
-    const closeEditModal = () => {
-        setIsEditModalOpen(false);
-    };
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+  };
 
-    const handleEdit = async (id: string, formData: Record<string, string>) => {
-        try {
-            await axios.put(`http://localhost:8000/update/${id}`, formData);
-            getAllUrl();
-            closeEditModal();
-        } catch (error) {
-            console.log(error);
-        }
-    };
+  const handleEdit = async (id: string, formData: Record<string, string>) => {
+    try {
+      await axios.put(`http://localhost:8000/update/${id}`, formData);
+      getAllUrl();
+      closeEditModal();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    const getAllUrl = async () => {
-        setLoading(!loading);
-        try {
-            const res = await fetch(`http://localhost:8000/appid?page=${page}`);
-            const data = await res.json();
-            if (data) {
-                setAllUrl(data);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-        setLoading(!loading);
-    };
+  const getAllUrl = async () => {
+    setLoading(!loading);
+    try {
+      const res = await fetch(`http://localhost:8000/appid?page=${page}`);
+      const data = await res.json();
+      if (data) {
+        setAllUrl(data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(!loading);
+  };
 
-    useEffect(() => {
-        getAllUrl();
-    }, [page]);
+  useEffect(() => {
+    getAllUrl();
+  }, [page]);
 
-    return (
-        <>
-            <div>
-                <h1 className="text-3xl text-center font-bold">All Short Url Page</h1>
-                <div className="container mx-auto mt-8">
+  return (
+    <>
+      <div className="min-w-full">
+        <h1 className="text-3xl text-center font-bold">All Short Url Page</h1>
+        <div className="container mx-auto mt-8">
                     <table className="min-w-full bg-white border border-gray-300 text-center">
                         <thead>
                             <tr>
@@ -80,7 +79,7 @@ const AllUrl: React.FC = () => {
                                     key={index}
                                     className={index % 2 === 0 ? "bg-gray-100" : ""}
                                 >
-                                    <td className="py-2 px-4 border-b">{index + 1}</td>
+                                    <td className="py-2 px-4 border-b">{index + 1 +  (page * 10 -10)}</td>
                                     <td className="py-2 px-4 border-b btn">
                                         <a href={`http://localhost:8000/${item.short_id}`} className="text-decor-none cursor-pointer">
                                             {`localhost:8000/${item.short_id}`}
@@ -130,18 +129,18 @@ const AllUrl: React.FC = () => {
                         </button>
                     </div>
                 </div>
-            </div>
-            <EditModal
-                isOpen={isEditModalOpen}
-                onClose={closeEditModal}
-                data={editModalData}
-                handleEdit={handleEdit}
-            />
-            <Link to={"/"}>
-                <StickyButton onClick={()=>{}} label={"Go back"} />
-            </Link>
-        </>
-    );
+      </div>
+      <EditModal
+        isOpen={isEditModalOpen}
+        onClose={closeEditModal}
+        data={editModalData}
+        handleEdit={handleEdit}
+      />
+      <Link to={"/"}>
+        <StickyButton onClick={() => {}} label={"Go back"} />
+      </Link>
+    </>
+  );
 };
 
 export default AllUrl;
