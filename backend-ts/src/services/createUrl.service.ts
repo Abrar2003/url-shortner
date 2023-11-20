@@ -13,7 +13,7 @@ const generateUniqueShortID = async () => {
   return short;
 };
 
-const getExpirationDate = (expiration_date: string | undefined) => {
+const getExpirationDate = (expiration_date: string | undefined | null) => {
   if (expiration_date) {
     // Set expiration_date to the end of the day
     const date = new Date(expiration_date);
@@ -26,7 +26,7 @@ const getExpirationDate = (expiration_date: string | undefined) => {
 const createNewURL = (
   original_url: string,
   short_id: string,
-  expiration_date: string | undefined,
+  expirationDate: string | undefined | null | Date,
   title: string | undefined,
   description: string | undefined
 ) => {
@@ -34,7 +34,7 @@ const createNewURL = (
     original_url,
     short_id,
     starting_date: Date.now(),
-    expiration_date: expiration_date ? new Date(expiration_date) : undefined,
+    expiration_date: expirationDate ? new Date(expirationDate) : undefined,
     title,
     description,
   });

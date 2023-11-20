@@ -29,7 +29,7 @@ const shortenURL = async (req, res) => {
     const short_id = await generateUniqueShortID();
 
     const expirationDate = getExpirationDate(expiration_date);
-
+    console.log(expirationDate);
     // Create a new URL entry in the database
     const url = createNewURL(original_url, short_id, expirationDate, title, description);
 
