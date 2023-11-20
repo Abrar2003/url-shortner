@@ -37,14 +37,22 @@ const getExpirationDate = (expiration_date) => {
     return null;
 };
 exports.getExpirationDate = getExpirationDate;
+// Inside createNewURL function
 const createNewURL = (original_url, short_id, expirationDate, title, description) => {
+    // Check if the URL has expired
+    const isExpired = expirationDate && new Date(expirationDate) < new Date();
     return new url_model_1.default({
         original_url,
         short_id,
         starting_date: Date.now(),
-        expiration_date: expirationDate ? new Date(expirationDate) : undefined,
+        expiration_date: isExpired
+            ? new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) // 1 year from now
+            : expirationDate
+                ? new Date(expirationDate)
+                : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
         title,
         description,
+        status: isExpired ? 'expired' : 'active',
     });
 };
 exports.createNewURL = createNewURL;

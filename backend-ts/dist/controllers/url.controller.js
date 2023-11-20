@@ -22,7 +22,7 @@ const createUrl_service_1 = require("../services/createUrl.service");
 const DOMAIN = process.env.DOMAIN;
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : undefined;
 const shortenURL = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(DOMAIN);
+    //console.log(DOMAIN)
     try {
         const { original_url, expiration_date, title, description } = req.body;
         // Validate the original_url
@@ -38,6 +38,11 @@ const shortenURL = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             });
             return;
         }
+        // if (existing_url && existing_url.status === 'expired') {
+        //   // If URL has expired, provide a message to update the expiry date
+        //   res.status(400).json({ error: 'URL has expired. Please update the expiry date.' });
+        //   return;
+        // }
         // Generate a unique short_id
         const short_id = yield (0, createUrl_service_1.generateUniqueShortID)();
         const expirationDate = (0, createUrl_service_1.getExpirationDate)(expiration_date);
@@ -69,16 +74,19 @@ const redirectToOriginalURL = (req, res) => __awaiter(void 0, void 0, void 0, fu
             res.status(404).json({ error: 'URL not found' });
             return;
         }
+        // Handling Expired URLs
+        if (url.expiration_date && new Date(url.expiration_date) < new Date()) {
+            // Update the status to 'expired'
+            url.status = 'expired';
+            yield url.save();
+            res.status(400).json({ error: 'URL has expired' });
+            return;
+        }
         const log = yield accessLog_model_1.default.create({
             url_id: url._id,
             ip_address,
             visit_time: Date.now(),
         });
-        // Handling Expired URLs
-        if (url.expiration_date && new Date(url.expiration_date) < new Date()) {
-            res.status(400).json({ error: 'URL has expired' });
-            return;
-        }
         // Redirect to the original URL
         res.redirect(url.original_url);
     }
