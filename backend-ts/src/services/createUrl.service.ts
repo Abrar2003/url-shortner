@@ -23,6 +23,7 @@ const getExpirationDate = (expiration_date: string | undefined | null) => {
   return null;
 };
 
+// Inside createNewURL function
 const createNewURL = (
   original_url: string,
   short_id: string,
@@ -30,14 +31,23 @@ const createNewURL = (
   title: string | undefined,
   description: string | undefined
 ) => {
+  // Check if the URL has expired
+  const isExpired = expirationDate && new Date(expirationDate) < new Date();
+
   return new URL({
     original_url,
     short_id,
     starting_date: Date.now(),
-    expiration_date: expirationDate ? new Date(expirationDate) : undefined,
+    expiration_date: isExpired
+      ? new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) // 1 year from now
+      : expirationDate
+        ? new Date(expirationDate)
+        : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // Set default to 1 year if not provided
     title,
     description,
+    status: isExpired ? 'expired' : 'active',
   });
 };
 
 export { findExistingURL, generateUniqueShortID, getExpirationDate, createNewURL };
+

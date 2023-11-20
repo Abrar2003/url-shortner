@@ -18,7 +18,7 @@ const DOMAIN: string | undefined = process.env.DOMAIN;
 const PORT: number | undefined = process.env.PORT ? parseInt(process.env.PORT, 10) : undefined;
 
 const shortenURL = async (req: Request, res: Response): Promise<void> => {
-  console.log(DOMAIN)
+  //console.log(DOMAIN)
   try {
     const { original_url, expiration_date, title, description } = req.body;
 
@@ -37,6 +37,12 @@ const shortenURL = async (req: Request, res: Response): Promise<void> => {
       });
       return;
     }
+
+    // if (existing_url && existing_url.status === 'expired') {
+    //   // If URL has expired, provide a message to update the expiry date
+    //   res.status(400).json({ error: 'URL has expired. Please update the expiry date.' });
+    //   return;
+    // }
 
     // Generate a unique short_id
     const short_id = await generateUniqueShortID();
@@ -76,16 +82,22 @@ const redirectToOriginalURL = async (req: Request, res: Response): Promise<void>
       res.status(404).json({ error: 'URL not found' });
       return;
     }
+
+    // Handling Expired URLs
+    if (url.expiration_date && new Date(url.expiration_date) < new Date()) {
+      // Update the status to 'expired'
+      url.status = 'expired';
+      await url.save();
+
+      res.status(400).json({ error: 'URL has expired' });
+      return;
+    }
+    
     const log = await Log.create({
       url_id: url._id,
       ip_address,
       visit_time: Date.now(),
     });
-    // Handling Expired URLs
-    if (url.expiration_date && new Date(url.expiration_date) < new Date()) {
-      res.status(400).json({ error: 'URL has expired' });
-      return;
-    }
 
     // Redirect to the original URL
     res.redirect(url.original_url);

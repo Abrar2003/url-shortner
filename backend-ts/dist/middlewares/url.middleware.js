@@ -26,7 +26,7 @@ const isExpired = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         }
         // Check if the URL is expired
         if (url.status === 'expired' ||
-            (url.expiration_date && new Date() > url.expiration_date)) {
+            (url.expiration_date && new Date() > new Date(url.expiration_date))) {
             url.status = 'expired';
             yield url.save();
             res.status(400).json({ error: 'URL has expired' });
