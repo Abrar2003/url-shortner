@@ -20,12 +20,11 @@ const isExpired = async (
     }
 
     // Check if the URL is expired
-    if (
-      url.status === 'expired' ||
-      (url.expiration_date && new Date() > new Date(url.expiration_date))
-    ) {
+    if (url.expiration_date && new Date(url.expiration_date) < new Date()) {
+      // Update the status to 'expired'
       url.status = 'expired';
       await url.save();
+
       res.status(400).json({ error: 'URL has expired' });
       return;
     }

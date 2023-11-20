@@ -30,8 +30,31 @@ const shortenURL = async (req: Request, res: Response): Promise<void> => {
 
     const existing_url = await findExistingURL(original_url);
 
+    // if (existing_url) {
+    //   console.log('existing');
+    //   res.json({
+    //     short_url: `${DOMAIN}/${existing_url.short_id}`,
+    //   });
+    //   return;
+    // }
+
     if (existing_url) {
-      console.log('existing');
+      if (existing_url.status === 'expired') {
+        // Update the status to 'active'
+        existing_url.status = 'active';
+
+        // Update the expiration_date to the next 1 year
+        existing_url.expiration_date = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+
+        await existing_url.save();
+
+        res.json({
+          short_url: `${DOMAIN}/${existing_url.short_id}`,
+        });
+        return;
+      }
+
+      // If the URL is not expired, return the existing short URL
       res.json({
         short_url: `${DOMAIN}/${existing_url.short_id}`,
       });
@@ -92,7 +115,7 @@ const redirectToOriginalURL = async (req: Request, res: Response): Promise<void>
       res.status(400).json({ error: 'URL has expired' });
       return;
     }
-    
+
     const log = await Log.create({
       url_id: url._id,
       ip_address,
