@@ -2,7 +2,7 @@ import URL from '../models/url.model';
 import shortid from 'shortid';
 
 const findExistingURL = async (original_url: string) => {
-  return await URL.findOne({ original_url, status: 'active' });
+  return await URL.findOne({ original_url });
 };
 
 const generateUniqueShortID = async () => {
