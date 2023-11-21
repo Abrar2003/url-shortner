@@ -22,7 +22,7 @@ const createUrl_service_1 = require("../services/createUrl.service");
 const DOMAIN = process.env.DOMAIN;
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : undefined;
 const shortenURL = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(DOMAIN);
+    //console.log(DOMAIN)
     try {
         const { original_url, expiration_date, title, description } = req.body;
         // Validate the original_url
@@ -30,19 +30,11 @@ const shortenURL = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             res.status(400).json({ error: 'Invalid URL format' });
             return;
         }
-        const existing_url = yield (0, createUrl_service_1.findExistingURL)(original_url);
-        if (existing_url) {
-            console.log('existing');
-            res.json({
-                short_url: `${DOMAIN}/${existing_url.short_id}`,
-            });
-            return;
-        }
         // Generate a unique short_id
         const short_id = yield (0, createUrl_service_1.generateUniqueShortID)();
         const expirationDate = (0, createUrl_service_1.getExpirationDate)(expiration_date);
         // Create a new URL entry in the database
-        const url = (0, createUrl_service_1.createNewURL)(original_url, short_id, expiration_date, title, description);
+        const url = (0, createUrl_service_1.createNewURL)(original_url, short_id, expirationDate, title, description);
         yield url.save();
         res.json({ short_url: `${DOMAIN}/${short_id}` });
     }
@@ -69,16 +61,19 @@ const redirectToOriginalURL = (req, res) => __awaiter(void 0, void 0, void 0, fu
             res.status(404).json({ error: 'URL not found' });
             return;
         }
+        // Handling Expired URLs
+        if (url.expiration_date && new Date(url.expiration_date) < new Date()) {
+            // Update the status to 'expired'
+            url.status = 'expired';
+            yield url.save();
+            res.status(400).json({ error: 'URL has expired' });
+            return;
+        }
         const log = yield accessLog_model_1.default.create({
             url_id: url._id,
             ip_address,
             visit_time: Date.now(),
         });
-        // Handling Expired URLs
-        if (url.expiration_date && new Date(url.expiration_date) < new Date()) {
-            res.status(400).json({ error: 'URL has expired' });
-            return;
-        }
         // Redirect to the original URL
         res.redirect(url.original_url);
     }
