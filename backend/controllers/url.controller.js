@@ -1,4 +1,3 @@
-const shortid = require("shortid");
 const validator = require("validator");
 const URL = require("../models/url.model");
 const Log = require("../models/accessLog.model");
@@ -30,7 +29,7 @@ const shortenURL = async (req, res) => {
     const short_id = await generateUniqueShortID();
 
     const expirationDate = getExpirationDate(expiration_date);
-
+    console.log(expirationDate);
     // Create a new URL entry in the database
     const url = createNewURL(original_url, short_id, expirationDate, title, description);
 
@@ -50,11 +49,6 @@ const redirectToOriginalURL = async (req, res) => {
 
     const referrer = req.headers.referer || req.headers.referrer || null;
     console.log("referrer", referrer);
-
-    // Check for Invalid shortId
-    if (!validator.isAlphanumeric(shortId)) {
-      return res.status(400).json({ error: "Invalid shortId format" });
-    }
 
     // Find the URL in the database using the short_id
     const url = await URL.findOne({ short_id: shortId });

@@ -98,6 +98,7 @@ const Form: React.FC<FormProps> = ({ onGenerate }) => {
             placeholder="Please enter Original URL"
             value={originalUrl}
             onChange={handleInputChange}
+            placeholder="http://example.com/very/long?url"
           />
         </div>
         <div className="mb-4">
@@ -110,6 +111,7 @@ const Form: React.FC<FormProps> = ({ onGenerate }) => {
           <input
             className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="title"
+            placeholder="e.g Example Url"
             type="text"
             placeholder="Optional"
             value={title}
@@ -145,6 +147,7 @@ const Form: React.FC<FormProps> = ({ onGenerate }) => {
             id="expiring"
             type="date"
             value={expiring}
+            placeholder={Date.now().toString()}
             onChange={handleInputChange}
           />
         </div>

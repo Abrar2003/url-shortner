@@ -4,16 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 const VisitorInfo = () => {
-  // const data = {
-  //   _id: "6555d73c46c74e2b331ed8a9",
-  //   original_url: "https://youtu.be/t8E0pEc-FFY?si=3K2qnFIlzZvH-1DT",
-  //   short_id: "V_N4QzmV-",
-  //   expiration_date: "2023-11-25T00:00:00.000+00:00",
-  //   starting_date: "2023-11-18T00:00:00.000+00:00",
-  //   title: "YouTube",
-  //   description: "All Info at One",
-  //   status: "active",
-  // };
   const [url_details, setDetails] = useState({});
   const [visitors, setVisitors] = useState([]);
   const [page, setPage] = useState(1);
@@ -36,13 +26,6 @@ const getLogsData = async (id, page) => {
     console.log(error);
   }
 };
-  const dummyVisitorData = [
-    { id: 1, ipAddress: "192.168.1.1", totalVisitors: 100 },
-    { id: 2, ipAddress: "192.168.1.2", totalVisitors: 75 },
-    { id: 3, ipAddress: "192.168.1.3", totalVisitors: 120 },
-    { id: 4, ipAddress: "192.168.1.4", totalVisitors: 90 },
-    { id: 5, ipAddress: "192.168.1.5", totalVisitors: 110 },
-  ];
 
   useEffect(() => {
     getUrlDetails(short_id);
