@@ -122,9 +122,7 @@ const AllUrl: React.FC = () => {
                                     <span className="mr-2">
                                         status: {item.status}
                                     </span>
-                                    {/* <span>
-                                        Expires on: {item.expiration_date}
-                                    </span> */}
+
                                 </div>
                                 <div className="flex justify-end gap-4 mt-2">
                                     <Link to={`/visitor-info/${item.short_id}`}>
@@ -141,7 +139,6 @@ const AllUrl: React.FC = () => {
                                         Edit
                                     </button>
                                 </div>
-                                {/* <p className="text-center p-1 bg-blue-500 rounded text-white w-8 m-auto">{(page-1)*10+index+1}</p> */}
                             </div>
                         </div>
 
