@@ -30,19 +30,6 @@ const shortenURL = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             res.status(400).json({ error: 'Invalid URL format' });
             return;
         }
-        const existing_url = yield (0, createUrl_service_1.findExistingURL)(original_url);
-        if (existing_url) {
-            console.log('existing');
-            res.json({
-                short_url: `${DOMAIN}/${existing_url.short_id}`,
-            });
-            return;
-        }
-        // if (existing_url && existing_url.status === 'expired') {
-        //   // If URL has expired, provide a message to update the expiry date
-        //   res.status(400).json({ error: 'URL has expired. Please update the expiry date.' });
-        //   return;
-        // }
         // Generate a unique short_id
         const short_id = yield (0, createUrl_service_1.generateUniqueShortID)();
         const expirationDate = (0, createUrl_service_1.getExpirationDate)(expiration_date);

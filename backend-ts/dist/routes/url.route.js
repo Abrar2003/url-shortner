@@ -4,12 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const url_middleware_1 = __importDefault(require("../middlewares/url.middleware"));
+const url_middleware_1 = require("../middlewares/url.middleware");
 const url_controller_1 = require("../controllers/url.controller");
 const Router = express_1.default.Router();
 Router.get("/appid", url_controller_1.getShortUrlsByAppId);
 Router.delete("/delete/:shortId", url_controller_1.deleteShortUrl);
-Router.post("/short", url_controller_1.shortenURL);
-Router.get("/:shortId", url_middleware_1.default, url_controller_1.redirectToOriginalURL);
-Router.put("/update/:shortId", url_middleware_1.default, url_controller_1.updateURL);
+Router.post("/short", url_middleware_1.check_expire, url_controller_1.shortenURL);
+Router.get("/:shortId", url_middleware_1.isExpired, url_controller_1.redirectToOriginalURL);
+Router.put("/update/:shortId", url_middleware_1.isExpired, url_controller_1.updateURL);
 exports.default = Router;
