@@ -34,3 +34,4 @@ app.listen(PORT, () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, connectDB_1.default)();
     console.log(`Server started on port ${PORT}`);
 }));
+exports.default = app;

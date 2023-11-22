@@ -28,22 +28,6 @@ const shortenURL = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const existing_url = await findExistingURL(original_url);
-
-    if (existing_url) {
-      console.log('existing');
-      res.json({
-        short_url: `${DOMAIN}/${existing_url.short_id}`,
-      });
-      return;
-    }
-
-    // if (existing_url && existing_url.status === 'expired') {
-    //   // If URL has expired, provide a message to update the expiry date
-    //   res.status(400).json({ error: 'URL has expired. Please update the expiry date.' });
-    //   return;
-    // }
-
     // Generate a unique short_id
     const short_id = await generateUniqueShortID();
 
@@ -92,7 +76,7 @@ const redirectToOriginalURL = async (req: Request, res: Response): Promise<void>
       res.status(400).json({ error: 'URL has expired' });
       return;
     }
-    
+
     const log = await Log.create({
       url_id: url._id,
       ip_address,
@@ -119,10 +103,28 @@ const updateURL = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
+    // Check if the user is trying to update the expiry date
+    if (updateFields.expiration_date) {
+      const newExpirationDate = new Date(updateFields.expiration_date);
+
+      // Check if the new expiration date is beyond the present date and time
+      if (newExpirationDate <= new Date()) {
+        //console.log("Expiry date cannot be set in the past or present")
+        res.status(400).json({ error: 'Expiry date cannot be set in the past or present' });
+        return;
+      }
+
+      // Update the expiration_date in the URL
+      url.expiration_date = newExpirationDate;
+    }
+
     // Update the fields in the database
     for (const [key, value] of Object.entries(updateFields)) {
-              // Explicitly cast to any if needed
-              (url as any)[key] = value;
+              // Skip the expiration_date since we handled it separately
+      if (key !== 'expiration_date') {
+        // Explicitly cast to any if needed
+        (url as any)[key] = value;
+      }
             }
 
     // Save the updated URL
