@@ -98,6 +98,7 @@ const Form2: React.FC<FormProps> = ({ onGenerate }) => {
           className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="originalUrl"
           type="text"
+          required={true}
           value={originalUrl}
           onChange={handleInputChange}
           placeholder="e.g http://example.com/very/long?url"
@@ -156,7 +157,7 @@ const Form2: React.FC<FormProps> = ({ onGenerate }) => {
       )}
       <div className="mb-4">
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-blue-900 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           type="button"
           onClick={handleGenerate}
         >
