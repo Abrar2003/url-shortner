@@ -35,16 +35,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const chai = __importStar(require("chai"));
 const chai_http_1 = __importDefault(require("chai-http"));
-const index_1 = __importDefault(require("../index")); // Adjust the path based on your project structure
-const expect = chai.expect;
-chai.use(chai_http_1.default);
+const chai_1 = __importStar(require("chai"));
+const index_1 = __importDefault(require("../index"));
+chai_1.default.use(chai_http_1.default);
 describe('Analytics Controller', () => {
-    let shortUrlId; // Assume you have a short URL ID to use in the test cases
+    let shortUrlId;
     // Before running the tests, create a short URL and store its ID
     before(() => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield chai
+        const response = yield chai_1.default
             .request(index_1.default)
             .post('/short')
             .send({
@@ -57,23 +56,23 @@ describe('Analytics Controller', () => {
     }));
     // Test case for getting URL analytics
     it('should get URL analytics', () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield chai.request(index_1.default).get(`/analytics/${shortUrlId}`);
-        expect(response).to.have.status(200);
-        expect(response.body).to.have.property('url_details');
-        expect(response.body.url_details).to.have.property('original_url');
-        expect(response.body.url_details).to.have.property('short_id');
-        expect(response.body.url_details).to.have.property('stats');
-        expect(response.body.url_details.stats).to.have.property('total_visitors');
-        expect(response.body.url_details.stats).to.have.property('unique_visitors');
+        const response = yield chai_1.default.request(index_1.default).get(`/analytics/${shortUrlId}`);
+        (0, chai_1.expect)(response).to.have.status(200);
+        (0, chai_1.expect)(response.body).to.have.property('url_details');
+        (0, chai_1.expect)(response.body.url_details).to.have.property('original_url');
+        (0, chai_1.expect)(response.body.url_details).to.have.property('short_id');
+        (0, chai_1.expect)(response.body.url_details).to.have.property('stats');
+        (0, chai_1.expect)(response.body.url_details.stats).to.have.property('total_visitors');
+        (0, chai_1.expect)(response.body.url_details.stats).to.have.property('unique_visitors');
     }));
     // Test case for getting all visitors with pagination
     it('should get all visitors with pagination', () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield chai.request(index_1.default).get(`/analytics/visitors/${shortUrlId}?page=1`);
-        expect(response).to.have.status(200);
-        expect(response.body).to.be.an('array');
+        const response = yield chai_1.default.request(index_1.default).get(`/analytics/visitors/${shortUrlId}?page=1`);
+        (0, chai_1.expect)(response).to.have.status(200);
+        (0, chai_1.expect)(response.body).to.be.an('array');
     }));
     // After running the tests, delete the created short URL
     after(() => __awaiter(void 0, void 0, void 0, function* () {
-        yield chai.request(index_1.default).delete(`/delete/${shortUrlId}`);
+        yield chai_1.default.request(index_1.default).delete(`/delete/${shortUrlId}`);
     }));
 });
