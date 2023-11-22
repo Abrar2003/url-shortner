@@ -18,7 +18,7 @@ const DOMAIN: string | undefined = process.env.DOMAIN;
 const PORT: number | undefined = process.env.PORT ? parseInt(process.env.PORT, 10) : undefined;
 
 const shortenURL = async (req: Request, res: Response): Promise<void> => {
-  console.log(DOMAIN)
+  //console.log(DOMAIN)
   try {
     const { original_url, expiration_date, title, description } = req.body;
 
@@ -28,23 +28,13 @@ const shortenURL = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const existing_url = await findExistingURL(original_url);
-
-    if (existing_url) {
-      console.log('existing');
-      res.json({
-        short_url: `${DOMAIN}/${existing_url.short_id}`,
-      });
-      return;
-    }
-
     // Generate a unique short_id
     const short_id = await generateUniqueShortID();
 
     const expirationDate = getExpirationDate(expiration_date);
 
     // Create a new URL entry in the database
-    const url = createNewURL(original_url, short_id, expiration_date, title, description);
+    const url = createNewURL(original_url, short_id, expirationDate, title, description);
 
     await url.save();
 
@@ -76,16 +66,22 @@ const redirectToOriginalURL = async (req: Request, res: Response): Promise<void>
       res.status(404).json({ error: 'URL not found' });
       return;
     }
+
+    // Handling Expired URLs
+    if (url.expiration_date && new Date(url.expiration_date) < new Date()) {
+      // Update the status to 'expired'
+      url.status = 'expired';
+      await url.save();
+
+      res.status(400).json({ error: 'URL has expired' });
+      return;
+    }
+
     const log = await Log.create({
       url_id: url._id,
       ip_address,
       visit_time: Date.now(),
     });
-    // Handling Expired URLs
-    if (url.expiration_date && new Date(url.expiration_date) < new Date()) {
-      res.status(400).json({ error: 'URL has expired' });
-      return;
-    }
 
     // Redirect to the original URL
     res.redirect(url.original_url);
@@ -107,10 +103,28 @@ const updateURL = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
+    // Check if the user is trying to update the expiry date
+    if (updateFields.expiration_date) {
+      const newExpirationDate = new Date(updateFields.expiration_date);
+
+      // Check if the new expiration date is beyond the present date and time
+      if (newExpirationDate <= new Date()) {
+        //console.log("Expiry date cannot be set in the past or present")
+        res.status(400).json({ error: 'Expiry date cannot be set in the past or present' });
+        return;
+      }
+
+      // Update the expiration_date in the URL
+      url.expiration_date = newExpirationDate;
+    }
+
     // Update the fields in the database
     for (const [key, value] of Object.entries(updateFields)) {
-              // Explicitly cast to any if needed
-              (url as any)[key] = value;
+              // Skip the expiration_date since we handled it separately
+      if (key !== 'expiration_date') {
+        // Explicitly cast to any if needed
+        (url as any)[key] = value;
+      }
             }
 
     // Save the updated URL

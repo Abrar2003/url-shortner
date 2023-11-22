@@ -23,9 +23,29 @@ const EditModal: React.FC<EditModalProps> = ({
     description: data.description,
     expiration_date: data.expiration_date,
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name: key, value } = e.target;
+    const expireTimestamp =
+      key == "expiration_date" ? new Date(value).getTime() : null;
+    const startTimestamp = new Date().getTime();
+    if (
+      expireTimestamp &&
+      expireTimestamp - startTimestamp < 24 * 60 * 60 * 1000
+    ) {
+      setErrorMessage(
+        "The difference between starting and expiring dates must be at least 24 hours"
+      );
+      // Clear error message after 2 seconds
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 4000);
+
+      return;
+    }
     setFormData({
       ...formData,
       [key]: value,
@@ -104,6 +124,9 @@ const EditModal: React.FC<EditModalProps> = ({
                   </div>
                 </div>
               </div>
+              {errorMessage && (
+                <p className="text-red-500 text-sm mb-4">{errorMessage}</p>
+              )}
               <div className="bg-gray-50 px-4 py-3 flex justify-end">
                 <button
                   onClick={() => handleEdit(data.short_id, formData)}

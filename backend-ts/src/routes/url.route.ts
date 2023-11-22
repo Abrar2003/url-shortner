@@ -1,4 +1,5 @@
 import express from "express";
+import { isExpired, check_expire } from "../middlewares/url.middleware";
 import {
   shortenURL,
   redirectToOriginalURL,
@@ -11,8 +12,8 @@ const Router = express.Router();
 
 Router.get("/appid", getShortUrlsByAppId);
 Router.delete("/delete/:shortId", deleteShortUrl);
-Router.post("/short", shortenURL);
-Router.get("/:shortId", redirectToOriginalURL);
-Router.put("/update/:shortId", updateURL);
+Router.post("/short", check_expire, shortenURL);
+Router.get("/:shortId", isExpired, redirectToOriginalURL);
+Router.put("/update/:shortId", isExpired, updateURL);
 
 export default Router;
