@@ -67,8 +67,8 @@ const VisitorInfo: React.FC = () => {
     <div className="container mx-auto p-8">
       {/* Card Section */}
       <section className="text-gray-600 body-font rounded mb-4 shadow-2xl">
-        <div className="container px-5 mx-auto flex">
-          <div className="flex flex-wrap mx-4 mt-auto mb-auto content w-1/2">
+        <div className="container pl-5 mx-auto flex">
+          <div className="flex flex-wrap mx-4 mt-auto mb-auto content lg:w-1/2 w-full">
             <div className="w-full sm:p-4 px-4 mb-1">
               <h1 className="title-font font-medium text-2xl mb-2 text-gray-900 capitalize">
                 {urlDetails?.title}
@@ -121,17 +121,17 @@ const VisitorInfo: React.FC = () => {
                   {urlDetails?.stats?.total_visitors}
                 </p>
               </div>
-            </div>
-            <div className="p-4">
-              <h2 className="title-font font-medium text-[1.3rem] text-gray-900">
-                Unique Visitors
-              </h2>
-              <p className="leading-relaxed">
-                {urlDetails?.stats?.unique_visitors}
-              </p>
+              <div className="p-4">
+                <h2 className="title-font font-medium text-[1.3rem] text-gray-900">
+                  Unique Visitors
+                </h2>
+                <p className="leading-relaxed">
+                  {urlDetails?.stats?.unique_visitors}
+                </p>
+              </div>
             </div>
           </div>
-          <div className="lg:w-1/2 sm:w-1/3 w-full rounded-lg overflow-hidden mt-6 sm:mt-0">
+          <div className="lg:w-1/2 sm:w-1/3 w-full rounded-lg overflow-hidden mt-6 sm:mt-0 lg:block hidden">
             <img
               className="object-cover object-center w-full h-full"
               src="https://cdn.pixabay.com/photo/2019/04/18/13/26/a-random-lake-4136935_960_720.jpg"
