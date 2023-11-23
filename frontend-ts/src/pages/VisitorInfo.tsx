@@ -17,8 +17,8 @@ interface UrlDetails {
     unique_visitors: number;
   };
 }
-interface  AxiosResponse{
-  url_details:UrlDetails
+interface AxiosResponse {
+  url_details: UrlDetails;
 }
 
 interface VisitorData {
@@ -35,7 +35,9 @@ const VisitorInfo: React.FC = () => {
 
   const getUrlDetails = async (id: string) => {
     try {
-      const { data } = await axios.get<AxiosResponse>(`http://localhost:8000/analytics/${id}`);
+      const { data } = await axios.get<AxiosResponse>(
+        `http://localhost:8000/analytics/${id}`
+      );
       setUrlDetails(data.url_details);
     } catch (error) {
       console.log(error);
@@ -44,7 +46,9 @@ const VisitorInfo: React.FC = () => {
 
   const getLogsData = async (id: string, page: number) => {
     try {
-      const { data } = await axios.get<VisitorData[]>(`http://localhost:8000/analytics/visitors/${id}?page=${page}`);
+      const { data } = await axios.get<VisitorData[]>(
+        `http://localhost:8000/analytics/visitors/${id}?page=${page}`
+      );
       setVisitors(data);
     } catch (error) {
       console.log(error);
@@ -57,44 +61,85 @@ const VisitorInfo: React.FC = () => {
       getLogsData(short_id, page);
     }
   }, [page, short_id]);
-  console.log(urlDetails);
+  // console.log(urlDetails);
 
   return (
     <div className="container mx-auto p-8">
       {/* Card Section */}
-      <div className="max-w-md mx-auto mb-8 p-4 bg-white rounded-md shadow-md">
-        <h2 className="text-2xl font-bold mb-4">URL Information</h2>
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <p className="font-bold">Short ID</p>
-            <p>{urlDetails.short_id}</p>
+      <section className="text-gray-600 body-font rounded mb-4 shadow-2xl">
+        <div className="container px-5 mx-auto flex">
+          <div className="flex flex-wrap mx-4 mt-auto mb-auto content w-1/2">
+            <div className="w-full sm:p-4 px-4 mb-1">
+              <h1 className="title-font font-medium text-2xl mb-2 text-gray-900 capitalize">
+                {urlDetails?.title}
+              </h1>
+              <div className="leading-relaxed mb-3">
+                {urlDetails?.description}
+              </div>
+              <div>
+                <span className="font-medium text-lg text-gray-900">
+                  Original url:
+                </span>
+                <a href="" className="cursor-pointer text-blue-500 underline">
+                  {urlDetails?.original_url}
+                </a>
+              </div>
+              <div>
+                <span className="font-medium text-lg text-gray-900">
+                  Short url:
+                </span>
+                <a
+                  href=""
+                  className="cursor-pointer text-blue-500 underline"
+                >{`http://localhost:8080/${urlDetails?.short_id}`}</a>
+              </div>
+            </div>
+            <div className="flex flex-wrap">
+              <div className="p-4">
+                <h2 className="title-font font-medium text-[1.3rem] text-gray-900">
+                  Short Id
+                </h2>
+                <p className="leading-relaxed">{urlDetails?.short_id}</p>
+              </div>
+              <div className="p-4">
+                <h2 className="title-font font-medium text-[1.3rem] text-gray-900">
+                  Expiration Date
+                </h2>
+                <p className="leading-relaxed">{urlDetails?.expiration_date}</p>
+              </div>
+              <div className="p-4">
+                <h2 className="title-font font-medium text-[1.3rem] text-gray-900">
+                  Status
+                </h2>
+                <p className="leading-relaxed">{urlDetails?.status}</p>
+              </div>
+              <div className="p-4">
+                <h2 className="title-font font-medium text-[1.3rem] text-gray-900">
+                  Total Visitors
+                </h2>
+                <p className="leading-relaxed">
+                  {urlDetails?.stats?.total_visitors}
+                </p>
+              </div>
+            </div>
+            <div className="p-4">
+              <h2 className="title-font font-medium text-[1.3rem] text-gray-900">
+                Unique Visitors
+              </h2>
+              <p className="leading-relaxed">
+                {urlDetails?.stats?.unique_visitors}
+              </p>
+            </div>
           </div>
-          <div>
-            <p className="font-bold">Expiration Date</p>
-            <p>{urlDetails.expiration_date || "No expiration date"}</p>
-          </div>
-          <div>
-            <p className="font-bold">Title</p>
-            <p>{urlDetails.title || "No Title"}</p>
-          </div>
-          <div>
-            <p className="font-bold">Description</p>
-            <p>{urlDetails.description || "No Description"}</p>
-          </div>
-          <div>
-            <p className="font-bold">Status</p>
-            <p>{urlDetails.status}</p>
-          </div>
-          <div>
-            <p className="font-bold">Total Visitors</p>
-            <p>{urlDetails?.stats?.total_visitors || 0}</p>
-          </div>
-          <div>
-            <p className="font-bold">Total Unique Visitors</p>
-            <p>{urlDetails?.stats?.unique_visitors || 0}</p>
+          <div className="lg:w-1/2 sm:w-1/3 w-full rounded-lg overflow-hidden mt-6 sm:mt-0">
+            <img
+              className="object-cover object-center w-full h-full"
+              src="https://cdn.pixabay.com/photo/2019/04/18/13/26/a-random-lake-4136935_960_720.jpg"
+              alt="stats"
+            />
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Table Section */}
       <div className="max-w-full mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
@@ -140,7 +185,7 @@ const VisitorInfo: React.FC = () => {
         </button>
       </div>
       <Link to={"/all-urls"}>
-        <StickyButton onClick={()=>{}} label={"Go back"} />
+        <StickyButton onClick={() => {}} label={"Go back"} />
       </Link>
     </div>
   );
