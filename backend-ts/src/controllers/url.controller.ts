@@ -1,9 +1,8 @@
-
-import { Request, Response } from 'express';
-import validator from 'validator';
-import URL from '../models/url.model';
-import Log from '../models/accessLog.model';
-import dotenv from 'dotenv';
+import { Request, Response } from "express";
+import validator from "validator";
+import URL from "../models/url.model";
+import Log from "../models/accessLog.model";
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -12,10 +11,12 @@ import {
   generateUniqueShortID,
   getExpirationDate,
   createNewURL,
-} from '../services/createUrl.service';
+} from "../services/createUrl.service";
 
 const DOMAIN: string | undefined = process.env.DOMAIN;
-const PORT: number | undefined = process.env.PORT ? parseInt(process.env.PORT, 10) : undefined;
+const PORT: number | undefined = process.env.PORT
+  ? parseInt(process.env.PORT, 10)
+  : undefined;
 
 const shortenURL = async (req: Request, res: Response): Promise<void> => {
   //console.log(DOMAIN)
@@ -24,7 +25,7 @@ const shortenURL = async (req: Request, res: Response): Promise<void> => {
 
     // Validate the original_url
     if (!validator.isURL(original_url)) {
-      res.status(400).json({ error: 'Invalid URL format' });
+      res.status(400).json({ error: "Invalid URL format" });
       return;
     }
 
@@ -34,24 +35,33 @@ const shortenURL = async (req: Request, res: Response): Promise<void> => {
     const expirationDate = getExpirationDate(expiration_date);
 
     // Create a new URL entry in the database
-    const url = createNewURL(original_url, short_id, expirationDate, title, description);
+    const url = createNewURL(
+      original_url,
+      short_id,
+      expirationDate,
+      title,
+      description
+    );
 
     await url.save();
 
     res.json({ short_url: `${DOMAIN}/${short_id}` });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-const redirectToOriginalURL = async (req: Request, res: Response): Promise<void> => {
+const redirectToOriginalURL = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { shortId } = req.params;
     const ip_address = req.ip;
 
     const referrer = req.headers.referer || req.headers.referrer || null;
-    console.log('referrer', referrer);
+    console.log("referrer", referrer);
 
     // Check for Invalid shortId
     // if (!validator.isAlphanumeric(shortId)) {
@@ -63,17 +73,17 @@ const redirectToOriginalURL = async (req: Request, res: Response): Promise<void>
     const url = await URL.findOne({ short_id: shortId });
 
     if (!url) {
-      res.status(404).json({ error: 'URL not found' });
+      res.status(404).json({ error: "URL not found" });
       return;
     }
 
     // Handling Expired URLs
     if (url.expiration_date && new Date(url.expiration_date) < new Date()) {
       // Update the status to 'expired'
-      url.status = 'expired';
+      url.status = "expired";
       await url.save();
 
-      res.status(400).json({ error: 'URL has expired' });
+      res.status(400).json({ error: "URL has expired" });
       return;
     }
 
@@ -87,7 +97,7 @@ const redirectToOriginalURL = async (req: Request, res: Response): Promise<void>
     res.redirect(url.original_url);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -99,7 +109,7 @@ const updateURL = async (req: Request, res: Response): Promise<void> => {
     // Handling Non-Existing URLs
     const url = await URL.findOne({ short_id: shortId });
     if (!url) {
-      res.status(404).json({ error: 'URL not found' });
+      res.status(404).json({ error: "URL not found" });
       return;
     }
 
@@ -110,7 +120,9 @@ const updateURL = async (req: Request, res: Response): Promise<void> => {
       // Check if the new expiration date is beyond the present date and time
       if (newExpirationDate <= new Date()) {
         //console.log("Expiry date cannot be set in the past or present")
-        res.status(400).json({ error: 'Expiry date cannot be set in the past or present' });
+        res
+          .status(400)
+          .json({ error: "Expiry date cannot be set in the past or present" });
         return;
       }
 
@@ -120,12 +132,12 @@ const updateURL = async (req: Request, res: Response): Promise<void> => {
 
     // Update the fields in the database
     for (const [key, value] of Object.entries(updateFields)) {
-              // Skip the expiration_date since we handled it separately
-      if (key !== 'expiration_date') {
+      // Skip the expiration_date since we handled it separately
+      if (key !== "expiration_date") {
         // Explicitly cast to any if needed
         (url as any)[key] = value;
       }
-            }
+    }
 
     // Save the updated URL
     await url.save();
@@ -134,11 +146,14 @@ const updateURL = async (req: Request, res: Response): Promise<void> => {
     res.json(updateFields);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-const getShortUrlsByAppId = async (req: Request, res: Response): Promise<void> => {
+const getShortUrlsByAppId = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     // const { app_id } = req.query;
     const { page } = req.query;
@@ -147,12 +162,12 @@ const getShortUrlsByAppId = async (req: Request, res: Response): Promise<void> =
     //   const result = await URL.getByAppId(app_id, page, pageSize);
 
     const result = await URL.find()
-    .skip(((page as unknown) as number - 1) * pageSize)
-    .limit(pageSize);
+      .skip(((page as unknown as number) - 1) * pageSize)
+      .limit(pageSize);
     res.send(result);
   } catch (error) {
-    console.error('Error fetching URLs by App Id:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error fetching URLs by App Id:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -166,17 +181,17 @@ const deleteShortUrl = async (req: Request, res: Response): Promise<void> => {
     if (deletedUrl) {
       res.json({
         success: true,
-        message: 'URL deleted successfully',
+        message: "URL deleted successfully",
       });
     } else {
       res.status(404).json({
         success: false,
-        message: 'URL not found',
+        message: "URL not found",
       });
     }
   } catch (error) {
-    console.error('Error deleting URL by shortId:', error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
+    console.error("Error deleting URL by shortId:", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
 
