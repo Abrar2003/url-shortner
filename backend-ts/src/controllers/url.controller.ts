@@ -54,10 +54,10 @@ const redirectToOriginalURL = async (req: Request, res: Response): Promise<void>
     console.log('referrer', referrer);
 
     // Check for Invalid shortId
-    if (!validator.isAlphanumeric(shortId)) {
-      res.status(400).json({ error: 'Invalid shortId format' });
-      return;
-    }
+    // if (!validator.isAlphanumeric(shortId)) {
+    //   res.status(400).json({ error: 'Invalid shortId format' });
+    //   return;
+    // }
 
     // Find the URL in the database using the short_id
     const url = await URL.findOne({ short_id: shortId });
