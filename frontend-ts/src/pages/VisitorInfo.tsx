@@ -66,54 +66,62 @@ const VisitorInfo: React.FC = () => {
   return (
     <div className="container mx-auto p-8">
       {/* Card Section */}
-      <section className="text-gray-600 body-font rounded mb-4 shadow-2xl">
-        <div className="container pl-5 mx-auto flex">
-          <div className="flex flex-wrap mx-4 mt-auto mb-auto content lg:w-1/2 w-full">
-            <div className="w-full sm:p-4 px-4 mb-1">
-              <h1 className="title-font font-medium text-2xl mb-2 text-gray-900 capitalize">
+      <section className="text-gray-600 body-font rounded mb-4 ">
+        <div className="container pl-5 pb-3 mx-auto flex">
+          <div className="flex flex-wrap mx-auto w-full shadow-2xl pt-3 px-4 pb-6">
+            <div className="w-full  mb-1">
+              <h1 className="title-font font-medium text-2xl mb-2 text-gray-900 capitalize pl-4">
                 {urlDetails?.title}
               </h1>
-              <div className="leading-relaxed mb-3">
+              <div className="leading-relaxed mb-3 pl-4">
                 {urlDetails?.description}
               </div>
-              <div>
-                <span className="font-medium text-lg text-gray-900">
+            </div>
+            <div className="flex flex-wrap gap-2 w-full">
+            <div className="p-4 relative shadow-lg">
+                <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
+                <span className="title-font font-medium text-[1.3rem] text-gray-900">
                   Original url:
                 </span>
-                <a href="" className="cursor-pointer text-blue-500 underline">
+                <a href="" className="cursor-pointer underline">
                   {urlDetails?.original_url}
                 </a>
               </div>
-              <div>
-                <span className="font-medium text-lg text-gray-900">
+               <div className="p-4 relative shadow-lg">
+                <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
+                <span className="title-font font-medium text-[1.3rem] text-gray-900">
                   Short url:
                 </span>
                 <a
                   href=""
-                  className="cursor-pointer text-blue-500 underline"
+                  className="cursor-pointer underline"
                 >{`http://localhost:8080/${urlDetails?.short_id}`}</a>
               </div>
-            </div>
-            <div className="flex flex-wrap">
-              <div className="p-4">
-                <h2 className="title-font font-medium text-[1.3rem] text-gray-900">
-                  Short Id
-                </h2>
-                <p className="leading-relaxed">{urlDetails?.short_id}</p>
-              </div>
-              <div className="p-4">
+               <div className="p-4 relative shadow-lg">
+                <span className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
                 <h2 className="title-font font-medium text-[1.3rem] text-gray-900">
                   Expiration Date
                 </h2>
                 <p className="leading-relaxed">{urlDetails?.expiration_date}</p>
               </div>
-              <div className="p-4">
+            </div>
+            <div className="flex flex-wrap gap-2 w-full">
+              <div className="p-4 relative shadow-lg">
+                <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
+                <h2 className="title-font font-medium text-[1.3rem] text-gray-900">
+                  Short Id
+                </h2>
+                <p className="leading-relaxed">{urlDetails?.short_id}</p>
+              </div>           
+              <div className="p-4 relative shadow-lg">
+                <span className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
                 <h2 className="title-font font-medium text-[1.3rem] text-gray-900">
                   Status
                 </h2>
                 <p className="leading-relaxed">{urlDetails?.status}</p>
               </div>
-              <div className="p-4">
+              <div className="p-4 relative shadow-lg">
+                <span className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
                 <h2 className="title-font font-medium text-[1.3rem] text-gray-900">
                   Total Visitors
                 </h2>
@@ -121,7 +129,8 @@ const VisitorInfo: React.FC = () => {
                   {urlDetails?.stats?.total_visitors}
                 </p>
               </div>
-              <div className="p-4">
+              <div className="p-4 relative shadow-lg">
+                <span className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
                 <h2 className="title-font font-medium text-[1.3rem] text-gray-900">
                   Unique Visitors
                 </h2>
@@ -131,13 +140,13 @@ const VisitorInfo: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="lg:w-1/2 sm:w-1/3 w-full rounded-lg overflow-hidden mt-6 sm:mt-0 lg:block hidden">
+          {/* <div className="lg:w-1/2 sm:w-1/3 w-full rounded-lg overflow-hidden mt-6 sm:mt-0 lg:block hidden">
             <img
               className="object-cover object-center w-full h-full"
               src="https://cdn.pixabay.com/photo/2019/04/18/13/26/a-random-lake-4136935_960_720.jpg"
               alt="stats"
             />
-          </div>
+          </div> */}
         </div>
       </section>
 
