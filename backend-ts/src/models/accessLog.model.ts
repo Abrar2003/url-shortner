@@ -21,12 +21,14 @@ interface AccessLogDocument extends Document {
   url_id: Types.ObjectId | string;
   ip_address: string;
   visit_time?: Date;
+  referrer: string;
 }
 
 const accessLogSchema: Schema<AccessLogDocument> = new Schema({
   url_id: { type: mongoose.Schema.Types.ObjectId, ref: 'urls' },
   ip_address: { type: String, required: true },
   visit_time: { type: Date },
+  referrer: { type: String }
 });
 
 const AccessLogModel = mongoose.model<AccessLogDocument>('logs', accessLogSchema);
