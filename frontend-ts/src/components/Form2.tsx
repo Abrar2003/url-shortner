@@ -57,6 +57,12 @@ const Form2: React.FC<FormProps> = ({ onGenerate }) => {
       description,
       expiring,
     });
+
+    // Reset form data
+    setOriginalUrl("");
+    setTitle("");
+    setDescription("");
+    setExpiring("");
   };
 
   const handleInputChange = (
