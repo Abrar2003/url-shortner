@@ -138,15 +138,19 @@ const Home: React.FC = () => {
             onGenerate={(formData: FormData) => handleGenerate(formData)}
           />
           {output ? (
-            <>
-              <div id="output-box" className="mx-auto output-box mt-8 p-4 bg-white rounded-lg shadow-lg">
-                <pre className="flex justify-space-between align-center gap-5 bg-gray-200 p-4 rounded">
-                  <h2 className="text-2xl font-bold">Output:</h2>
-                  <p className="font-bold">{output}</p>
+          <>
+            <div className="w-5/12 mx-auto bg-white rounded-lg shadow-lg border border-gray-300">
+              <pre className="flex flex-col justify-center items-center gap-2 p-2">
+                <span className="text-xl font-bold font-serif">
+                  Hurray, Shorted Link Generated
+                </span>
+                <div className="flex items-center gap-4 p-2">
+                  <span className="text-blue-600 underline text-lg">{output}</span>
                   <CopyButton textToCopy={output} />
-                </pre>
-              </div>
-            </>
+                </div>
+              </pre>
+            </div>
+          </>
           ) : null}
           <Link to={"/all-urls"}>
             <StickyButton onClick={scrollToTop} label="All URL's" />
