@@ -9,7 +9,7 @@ import {
   PersonIcon,
   StarIcon,
   StackIcon,
-  EyeOpenIcon
+  EyeOpenIcon,
 } from "@radix-ui/react-icons";
 
 interface UrlDetails {
@@ -73,90 +73,76 @@ const VisitorInfo: React.FC = () => {
   // console.log(urlDetails);
 
   return (
-    <div className="container mx-auto p-8">
+    <div className="container mx-auto md:p-8 p-2">
       {/* Url card */}
-      <section className="text-gray-600 body-font rounded mb-4 ">
-        <div className="container pl-5 pb-3 mx-auto flex">
-          <div className="mx-auto w-full shadow-2xl pt-3 px-4 pb-6 border-[3px] rounded border-gray-500">
-            <div className="w-full mb-1">
-              <h1 className="title-font font-medium text-2xl mb-2 text-gray-900 capitalize">
+      <section className="text-gray-600 body-font rounded mb-4">
+        <div className="container md:pl-5 md:pb-3 mx-auto flex">
+          <div className="mx-auto w-full shadow-2xl md:p-6 p-2 border-[2px] rounded border-blue-600">
+            <div className="w-full mb-1 px-4 py-2 relative shadow-md">
+              <h1 className="title-font font-medium text-2xl mb-2 text-blue-600 capitalize">
                 {urlDetails?.title}
               </h1>
               <div className="leading-relaxed mb-3">
                 {urlDetails?.description}
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-2 m-auto lg:w-full">
+            <div className="md:grid md:grid-cols-3 gap-2 m-auto lg:w-full">
               <div className="p-4 relative shadow-md w-full">
-                <div>
-                  <ExternalLinkIcon width={20} height={20}/>
+                <div className="title-font md:text-lg text-sm font-medium flex  justify-start  items-center gap-2">
+                  <ExternalLinkIcon width={20} height={20} color="blue" />
+                  <span className="text-blue-600">Original Url</span>
                 </div>
-                <span className="title-font text-lg text-gray-900">
-                  Original Url
-                </span>
                 <a href="" className="cursor-pointer underline">
                   {urlDetails?.original_url}
                 </a>
               </div>
               <div className="p-4 relative shadow-md w-full">
-                <div>
-                  <Link2Icon width={20} height={20}/>
+                <div className="title-font md:text-lg text-sm font-medium flex  justify-start  items-center gap-2">
+                  <Link2Icon width={20} height={20} color="blue" />
+                  <span className="text-blue-600">Short Url</span>
                 </div>
-                <span className="title-font text-lg text-gray-900">
-                  Short Url
-                </span>
                 <a
                   href=""
                   className="cursor-pointer underline"
                 >{`http://localhost:8080/${urlDetails?.short_id}`}</a>
               </div>
               <div className="p-4 relative shadow-md w-full">
-                <div>
-                  <CalendarIcon width={20} height={20}/>
+                <div className="title-font md:text-lg text-sm font-medium flex  justify-start  items-center gap-2">
+                  <CalendarIcon width={20} height={20} color="blue" />
+                  <span className="text-blue-600">Expiration Date</span>
                 </div>
-                <h2 className="title-font text-lg text-gray-900">
-                  Expiration Date
-                </h2>
                 <p className="leading-relaxed">
-                  {urlDetails?.expiration_date}
+                  {urlDetails?.expiration_date?.split("T")[0]}
                 </p>
               </div>
               <div className="p-4 relative shadow-md w-full">
-                <div>
-                  <StarIcon width={20} height={20}/>
+                <div className="title-font md:text-lg text-sm font-medium flex  justify-start  items-center gap-2">
+                  <StarIcon width={20} height={20} color="blue" />
+                  <span className="text-blue-600">Short Id</span>
                 </div>
-                <h2 className="title-font text-lg text-gray-900">
-                  Short Id
-                </h2>
                 <p className="leading-relaxed">{urlDetails?.short_id}</p>
               </div>
               <div className="p-4 relative shadow-md w-full">
-                <div>
-                  <StackIcon width={20} height={20}/>
+                <div className="title-font md:text-lg text-sm font-medium flex  justify-start  items-center gap-2">
+                  <StackIcon width={20} height={20} color="blue" />
+                  <span className="text-blue-600">Status</span>
                 </div>
-                <h2 className="title-font text-lg text-gray-900">
-                  Status
-                </h2>
                 <p className="leading-relaxed">{urlDetails?.status}</p>
               </div>
               <div className="p-4 relative shadow-md w-full">
-                <div>
-                  <EyeOpenIcon width={20} height={20}/>
+                <div className="title-font md:text-lg text-sm font-medium flex  justify-start  items-center gap-2">
+                  <EyeOpenIcon width={20} height={20} color="blue" />
+                  <span className="text-blue-600">Total Visitors</span>
                 </div>
-                <h2 className="title-font text-lg text-gray-900">
-                  Total Visitors
-                </h2>
                 <p className="leading-relaxed">
                   {urlDetails?.stats?.total_visitors}
                 </p>
               </div>
-              <div className="p-4 relative shadow-md w-1/3 col-span-3 mx-auto">
-                <div>
-                  <PersonIcon width={20} height={20}/>
+              <div className="p-4 relative shadow-md md:w-1/3 md:col-span-3 mx-auto">
+                <div className="title-font md:text-lg text-sm font-medium flex  justify-start  items-center gap-2">
+                  <PersonIcon width={20} height={20} color="blue" />
+                  <span className="text-blue-600">Unique Visitors</span>
                 </div>
-                <h2 className="title-font text-lg text-gray-900">
-                  Unique Visitors
-                </h2>
                 <p className="leading-relaxed">
                   {urlDetails?.stats?.unique_visitors}
                 </p>
@@ -167,53 +153,67 @@ const VisitorInfo: React.FC = () => {
       </section>
       {/* Visitors Analytics */}
       <section className="text-gray-600 body-font rounded mb-4 ">
-        <div className="container pl-5 pb-3 mx-auto flex">
-          <div className="flex flex-wrap mx-auto w-full shadow-2xl pt-3 px-4 pb-6 border-[3px] rounded border-gray-500">
-            <div className="w-full mx-auto bg-white rounded-lg mt-4">
-              <h1 className="title-font font-medium text-[1.6rem] mb-2 text-gray-900 capitalize">
+        <div className="container md:pl-5 md:pb-3 mx-auto flex">
+          <div className="flex flex-wrap mx-auto w-full shadow-2xl p-6 border-[2px] rounded border-blue-600">
+            <div className="w-full mx-auto bg-white rounded-lg md:mt-4">
+              <h1 className="title-font font-medium text-[1.6rem] mb-2 text-blue-600 capitalize">
                 Visitors analytics:
               </h1>
-              <table className="min-w-full bg-gray-200">
-                <thead>
-                  <tr className="bg-white border-b">
-                    <th className="py-2 px-4">Sl No</th>
-                    <th className="py-2 px-4">IP Address</th>
-                    <th className="py-2 px-4">Visit Date</th>
-                    <th className="py-2 px-4">Visit Time</th>
-                    <th className="py-2 px-4">Blocked Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {visitors.map((item, index) => (
-                    <tr
-                      key={index}
-                      className={index % 2 === 0 ? "bg-gray-100" : ""}
-                    >
-                      <td className="py-2 px-4 text-center">
-                        {(page - 1) * 10 + index + 1}
-                      </td>
-                      <td className="py-2 px-4 text-center">
-                        {item?.ip_address}
-                      </td>
-                      <td className="py-2 px-4 text-center">
-                        {item?.visit_time?.split("T")[0]}
-                      </td>
-                      <td className="py-2 px-4 text-center">
-                        {item?.visit_time?.split("T")[1]}
-                      </td>
-                      <td className="py-2 px-4 text-center">Not Blocked</td>
+              <div className="w-full overflow-x-scroll">
+                <table className="bg-gray-200 w-full">
+                  <thead>
+                    <tr className="bg-white border-b">
+                      <th className="py-2 px-4 text-purple-600 font-medium capitalize whitespace-nowrap">
+                        Sl No
+                      </th>
+                      <th className="py-2 px-4 text-purple-600 font-medium capitalize whitespace-nowrap">
+                        IP Address
+                      </th>
+                      <th className="py-2 px-4 text-purple-600 font-medium capitalize whitespace-nowrap">
+                        Visit Date
+                      </th>
+                      <th className="py-2 px-4 text-purple-600 font-medium capitalize whitespace-nowrap">
+                        Visit Time
+                      </th>
+                      <th className="py-2 px-4 text-purple-600 font-medium capitalize whitespace-nowrap">
+                        Blocked Status
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {visitors.map((item, index) => (
+                      <tr
+                        key={index}
+                        className={index % 2 === 0 ? "bg-gray-100" : ""}
+                      >
+                        <td className="py-2 px-4 text-center whitespace-nowrap">
+                          {(page - 1) * 10 + index + 1}
+                        </td>
+                        <td className="py-2 px-4 text-center whitespace-nowrap">
+                          {item?.ip_address}
+                        </td>
+                        <td className="py-2 px-4 text-center whitespace-nowrap">
+                          {item?.visit_time?.split("T")[0]}
+                        </td>
+                        <td className="py-2 px-4 text-center whitespace-nowrap">
+                          {item?.visit_time?.split("T")[1]}
+                        </td>
+                        <td className="py-2 px-4 text-center whitespace-nowrap">
+                          Not Blocked
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
               <div className="m-auto mt-3 flex justify-end items-center">
                 <button
                   style={{
-                    opacity: page==1 ? "0.5" : "1",
-                    cursor: page==1 ? "not-allowed" : "pointer",
-                }}
-                disabled={page==1}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    opacity: page == 1 ? "0.5" : "1",
+                    cursor: page == 1 ? "not-allowed" : "pointer",
+                  }}
+                  disabled={page == 1}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   onClick={() => {
                     setPage((pre) => pre - 1);
                   }}
@@ -225,8 +225,8 @@ const VisitorInfo: React.FC = () => {
                   style={{
                     opacity: visitors.length < 6 ? "0.5" : "1",
                     cursor: visitors.length < 6 ? "not-allowed" : "pointer",
-                }}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  }}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   disabled={visitors.length < 6}
                   onClick={() => {
                     setPage((pre) => pre + 1);
