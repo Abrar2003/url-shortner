@@ -223,11 +223,11 @@ const VisitorInfo: React.FC = () => {
                 <button className="mx-6">{page}</button>
                 <button
                   style={{
-                    opacity: visitors.length < 10 ? "0.5" : "1",
-                    cursor: visitors.length < 10 ? "not-allowed" : "pointer",
+                    opacity: visitors.length < 6 ? "0.5" : "1",
+                    cursor: visitors.length < 6 ? "not-allowed" : "pointer",
                 }}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  disabled={visitors.length < 10}
+                  disabled={visitors.length < 6}
                   onClick={() => {
                     setPage((pre) => pre + 1);
                   }}
