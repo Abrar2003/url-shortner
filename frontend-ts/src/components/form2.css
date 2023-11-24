@@ -1,84 +1,8 @@
-#fdiv {
-  display: grid;
-  grid-template-areas:
-    "header header"
-    "main main"
-    "title exp"
-    "desc desc";
-  width: 40%;
-  gap: 20px;
-  padding: 2rem;
-  z-index: 10;
-  background-color: white;
-  /* box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
-    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset; */
-}
-#fdiv input,
-#fdiv textarea {
-  /* background-color: #212d63; */
-  /* color: white; */
-  
-}
-#fdiv input::placeholder,
-#fdiv textarea::placeholder  {
-  color: #000;
-}
-#fdiv textarea {
-  height: 80px;
-}
-#fdiv ::placeholder {
-  color: white;
-  opacity: 0.7;
-}
-#fdiv-1 {
-  grid-area: main;
-}
-
-#fdiv-1 label:after {
-  content: "  *";
-  color: red;
-  font-size: 16px;
-}
-
-#fdiv-2 {
-  grid-area: title;
-}
-
-#fdiv-3 {
-  grid-area: desc;
-}
-
-#fdiv-4 {
-  grid-area: exp;
-}
-
-/* Addition CSS. */
-* {
-  padding: 0;
-  margin: 0;
-  color: #1a1f36;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-    Helvetica Neue, Ubuntu, sans-serif;
-}
-body {
-  min-height: 100%;
-  background-color: #ffffff;
-}
-h1 {
-  letter-spacing: -1px;
-}
-a {
-  color: #5469d4;
-  text-decoration: unset;
-}
 .login-root {
-  background: #fff;
+  font-family: 'Poppins', sans-serif;
+  background: gainsboro;
   display: flex;
   width: 100%;
-  /* min-height: 100vh; */
-  /* overflow: hidden; */
 }
 .loginbackground {
   min-height: 692px;
@@ -162,30 +86,6 @@ a {
   justify-content: center;
 }
 
-.formbg {
-  margin: 0px auto;
-  width: 100%;
-  max-width: 448px;
-  background: white;
-  border-radius: 4px;
-  box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px,
-    rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
-}
-span {
-  display: block;
-  font-size: 20px;
-  line-height: 28px;
-  color: #1a1f36;
-}
-label {
-  margin-bottom: 10px;
-}
-.reset-pass a,
-label {
-  font-size: 14px;
-  font-weight: 600;
-  display: block;
-}
 .reset-pass > a {
   text-align: right;
   margin-bottom: 10px;
@@ -231,58 +131,4 @@ label {
   100% {
     transform: translateX(0px);
   }
-}
-
-.header-div {
-  width: 50%;
-  margin: 0 auto;
-  font-size: 25px;
-  /* background-color: white; */
-  padding: 1rem;
-  text-align: center !important;
-  grid-area: header;
-}
-
-.output-box {
-  width: 60%;
-}
-
-#copybtn {
-  width: 100%;
-  z-index: 100;
-  display: flex;
-  justify-content: flex-end;
-  padding: 1rem;
-}
-
-@media screen and (max-width: 600px) and (min-width: 320px) {
-  #fdiv {
-    width: 90%;
-    margin: auto;
-  }
-  #output-box {
-    max-width: 400px;
-    width: 95%;
-  }
-  #output-box pre {
-    display: grid;
-    grid-template-areas:
-      "head head2"
-      "btn btn";
-  }
-  #output-box h2 {
-    grid-area: head;
-    margin: 0;
-    padding: 0;
-  }
-  #output-box p {
-    grid-area: head2;
-    margin-left: -10px;
-    padding: 0;
-  }
-
-  #copybtn {
-    grid-area: btn;
-    width: 100%;
-  }
-}
+} 

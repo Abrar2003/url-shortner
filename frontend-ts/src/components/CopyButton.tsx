@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import "./form2.css";
-
+import { CopyIcon } from "@radix-ui/react-icons";
 interface CopyButtonProps {
   textToCopy: string;
 }
@@ -49,12 +49,18 @@ const CopyButton: React.FC<CopyButtonProps> = ({ textToCopy }) => {
         readOnly
         value={textToCopy}
       />
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      {!copy?<button
+        className="bg-blue-600 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         onClick={copyToClipboard}
       >
-        {!copy ? "Copy URL" : "Copied"}
-      </button>
+        <CopyIcon color="white" width={16} height={16} />
+      </button>:''}
+      {copy?<button
+        className="bg-blue-600 hover:bg-blue-900 text-white py-1 px-2 text-md rounded focus:outline-none focus:shadow-outline"
+        onClick={copyToClipboard}
+      >
+        Copied
+      </button>:''}
     </div>
   );
 };
