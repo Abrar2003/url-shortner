@@ -147,11 +147,12 @@ const AllUrl: React.FC = () => {
                 {/*  */}
                 <div className="m-auto mt-3 flex md:justify-end justify-center items-center">
                     <button
-                        className="border bottom-1 border-gray-500 rounded px-2 py-1 cursor-pointer"
-                        disabled={page === 1}
-                        style={{
-                            cursor: page === 1 ? 'not-allowed' : 'pointer',
-                          }}
+                         style={{
+                            opacity: page==1 ? "0.5" : "1",
+                            cursor: page==1 ? "not-allowed" : "pointer",
+                        }}
+                        disabled={page==1}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         onClick={() => {
                             setPage((pre) => pre - 1);
                         }}
@@ -159,19 +160,19 @@ const AllUrl: React.FC = () => {
                         Previous
                     </button>
                     <button className="mx-6">{page}</button>
-                    <button  
-                     style={{
-                        cursor: allUrl.length < 10 ? 'not-allowed' : 'pointer',
-                      }}
-                        disabled = { allUrl.length <10 }
-                         className="border bottom-1 border-gray-500 rounded px-5 py-1 cursor-pointer"
+                    <button
+                        style={{
+                            opacity: allUrl.length < 10 ? "0.5" : "1",
+                            cursor: allUrl.length < 10 ? "not-allowed" : "pointer",
+                        }}
+                        disabled={allUrl.length < 10}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         onClick={() => {
                             setPage((pre) => pre + 1);
                         }}
-                    >
+                        >
                         Next
                     </button>
-                    
                 </div>
             </div>
             <EditModal
