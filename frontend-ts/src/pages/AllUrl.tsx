@@ -25,6 +25,15 @@ const AllUrl: React.FC = () => {
         setEditModalData(item);
     };
 
+    const handleRemove = async (item: UrlItem) => {
+        try {
+            await axios.delete(`http://localhost:8000/delete/${item.short_id}`);
+            getAllUrl();
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const closeEditModal = () => {
         setIsEditModalOpen(false);
     };
@@ -71,6 +80,7 @@ const AllUrl: React.FC = () => {
                             <th className="py-2 px-4 border-b">Status</th>
                             <th className="py-2 px-4 border-b">Edit</th>
                             <th className="py-2 px-4 border-b">View Details</th>
+                            <th className="py-2 px-4 border-b">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -103,6 +113,14 @@ const AllUrl: React.FC = () => {
                                             Details
                                         </button>
                                     </Link>
+                                </td>
+                                <td className="py-2 px-4 border-b">
+                                   <button
+                                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                        onClick={() => handleRemove(item)}
+                                    >
+                                        Remove
+                                    </button>
                                 </td>
                             </tr>
                         ))}
@@ -137,6 +155,12 @@ const AllUrl: React.FC = () => {
                                         onClick={() => openEditModal(item)}
                                     >
                                         Edit
+                                    </button>
+                                    <button
+                                        className="bg-red-500 hover:bg-red-700 text-white py-1 px-4 rounded focus:outline-none focus:shadow-outline"
+                                        onClick={() => handleRemove(item)}
+                                    >
+                                        Remove
                                     </button>
                                 </div>
                             </div>
