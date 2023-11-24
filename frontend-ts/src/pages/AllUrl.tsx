@@ -149,6 +149,9 @@ const AllUrl: React.FC = () => {
                     <button
                         className="border bottom-1 border-gray-500 rounded px-2 py-1 cursor-pointer"
                         disabled={page === 1}
+                        style={{
+                            cursor: page === 1 ? 'not-allowed' : 'pointer',
+                          }}
                         onClick={() => {
                             setPage((pre) => pre - 1);
                         }}
@@ -156,14 +159,19 @@ const AllUrl: React.FC = () => {
                         Previous
                     </button>
                     <button className="mx-6">{page}</button>
-                    <button
-                        className="border bottom-1 border-gray-500 rounded px-5 py-1 cursor-pointer"
+                    <button  
+                     style={{
+                        cursor: allUrl.length < 10 ? 'not-allowed' : 'pointer',
+                      }}
+                        disabled = { allUrl.length <10 }
+                         className="border bottom-1 border-gray-500 rounded px-5 py-1 cursor-pointer"
                         onClick={() => {
                             setPage((pre) => pre + 1);
                         }}
                     >
                         Next
                     </button>
+                    
                 </div>
             </div>
             <EditModal
