@@ -208,8 +208,12 @@ const VisitorInfo: React.FC = () => {
               </table>
               <div className="m-auto mt-3 flex justify-end items-center">
                 <button
-                  className="border bottom-1 border-gray-500 rounded px-2 py-1"
-                  disabled={page === 1}
+                  style={{
+                    opacity: page==1 ? "0.5" : "1",
+                    cursor: page==1 ? "not-allowed" : "pointer",
+                }}
+                disabled={page==1}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   onClick={() => {
                     setPage((pre) => pre - 1);
                   }}
@@ -218,7 +222,11 @@ const VisitorInfo: React.FC = () => {
                 </button>
                 <button className="mx-6">{page}</button>
                 <button
-                  className="border bottom-1 border-gray-500 rounded px-2 py-1"
+                  style={{
+                    opacity: visitors.length < 10 ? "0.5" : "1",
+                    cursor: visitors.length < 10 ? "not-allowed" : "pointer",
+                }}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   disabled={visitors.length < 10}
                   onClick={() => {
                     setPage((pre) => pre + 1);
