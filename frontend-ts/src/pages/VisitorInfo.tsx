@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-// import StickyButton from "../components/StickyButton";
-import { useParams } from "react-router-dom";
+import StickyButton from "../components/StickyButton";
+import { useParams,Link } from "react-router-dom";
 import axios from "axios";
 import {
   CalendarIcon,
@@ -163,19 +163,19 @@ const VisitorInfo: React.FC = () => {
                 <table className="bg-gray-200 w-full">
                   <thead>
                     <tr className="bg-white border-b">
-                      <th className="py-2 px-4 text-purple-600 font-medium capitalize whitespace-nowrap">
+                      <th className="py-2 px-4 text-blue-500 font-medium capitalize whitespace-nowrap">
                         Sl No
                       </th>
-                      <th className="py-2 px-4 text-purple-600 font-medium capitalize whitespace-nowrap">
+                      <th className="py-2 px-4 text-blue-500 font-medium capitalize whitespace-nowrap">
                         IP Address
                       </th>
-                      <th className="py-2 px-4 text-purple-600 font-medium capitalize whitespace-nowrap">
+                      <th className="py-2 px-4 text-blue-500 font-medium capitalize whitespace-nowrap">
                         Visit Date
                       </th>
-                      <th className="py-2 px-4 text-purple-600 font-medium capitalize whitespace-nowrap">
+                      <th className="py-2 px-4 text-blue-500 font-medium capitalize whitespace-nowrap">
                         Visit Time
                       </th>
-                      <th className="py-2 px-4 text-purple-600 font-medium capitalize whitespace-nowrap">
+                      <th className="py-2 px-4 text-blue-500 font-medium capitalize whitespace-nowrap">
                         Blocked Status
                       </th>
                     </tr>
@@ -239,9 +239,9 @@ const VisitorInfo: React.FC = () => {
           </div>
         </div>
       </section>
-      {/* <Link to={"/all-urls"}>
+      <Link to={"/all-urls"}>
         <StickyButton onClick={() => {}} label={"Go back"} />
-      </Link> */}
+      </Link>
     </div>
   );
 };
