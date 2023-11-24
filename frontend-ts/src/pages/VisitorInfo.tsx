@@ -77,7 +77,7 @@ const VisitorInfo: React.FC = () => {
       {/* Url card */}
       <section className="text-gray-600 body-font rounded mb-4 ">
         <div className="container pl-5 pb-3 mx-auto flex">
-          <div className="mx-auto w-full shadow-2xl pt-3 px-4 pb-6 border-[3px] rounded border-blue-600">
+          <div className="mx-auto w-full shadow-2xl pt-3 px-4 pb-6 border-[3px] rounded border-gray-500">
             <div className="w-full mb-1">
               <h1 className="title-font font-medium text-2xl mb-2 text-gray-900 capitalize">
                 {urlDetails?.title}
@@ -118,7 +118,7 @@ const VisitorInfo: React.FC = () => {
                   Expiration Date
                 </h2>
                 <p className="leading-relaxed">
-                  {urlDetails?.expiration_date?.split("T")[0]}
+                  {urlDetails?.expiration_date}
                 </p>
               </div>
               <div className="p-4 relative shadow-md w-full">
@@ -168,7 +168,7 @@ const VisitorInfo: React.FC = () => {
       {/* Visitors Analytics */}
       <section className="text-gray-600 body-font rounded mb-4 ">
         <div className="container pl-5 pb-3 mx-auto flex">
-          <div className="flex flex-wrap mx-auto w-full shadow-2xl pt-3 px-4 pb-6 border-[3px] rounded border-blue-600">
+          <div className="flex flex-wrap mx-auto w-full shadow-2xl pt-3 px-4 pb-6 border-[3px] rounded border-gray-500">
             <div className="w-full mx-auto bg-white rounded-lg mt-4">
               <h1 className="title-font font-medium text-[1.6rem] mb-2 text-gray-900 capitalize">
                 Visitors analytics:
