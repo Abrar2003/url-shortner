@@ -129,20 +129,19 @@ const AllUrl: React.FC = () => {
                 {/* For small screen */}
                 <div className="h-[80vh] overflow-y-scroll scrollbar-hide px-1 md:hidden">
                     {allUrl.map((item, index) => (
-                        <div className="max-w-md mx-auto bg-white rounded-md overflow-hidden border border-solid border-gray-500 mb-2" key={index}>
-                            <div className="px-6 pt-6 pb-2">
-                                <h2 className="text-xl font-bold capitalize">{(page-1)*10+index+1}: {item.title}</h2>
+                        <div className="max-w-md mx-auto bg-white rounded-md overflow-hidden border border-solid border-gray-500 mx-2 my-2" key={index}>
+                            <div className="p-4">
+                                <h2 className="text-xl font-bold capitalize pb-2">{item.title}</h2>
                                 <div className="flex flex-col text-sm">
-                                    <span className="mr-2 flex items-center justify-start gap-1">
+                                    <span className="mr-2 flex">
                                         <a href={`http://localhost:8000/${item.short_id}`} className="cursor-pointer text-blue-500 underline italic">http://localhost:8000/{item.short_id}</a>
-                                        <img src="link.png" className="cursor-pointer" alt="png" width={25}height={25} />
                                     </span>
                                     <span className="mr-2">
                                         status: {item.status}
                                     </span>
 
                                 </div>
-                                <div className="flex justify-end gap-4 mt-2">
+                                <div className="flex justify-start gap-4 mt-2">
                                     <Link to={`/visitor-info/${item.short_id}`}>
                                         <button
                                             className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-1 rounded focus:outline-none focus:shadow-outline"

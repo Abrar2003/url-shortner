@@ -76,7 +76,7 @@ const VisitorInfo: React.FC = () => {
     <div className="container mx-auto md:p-8 p-2">
       {/* Url card */}
       <section className="text-gray-600 body-font rounded mb-4">
-        <div className="container md:pl-5 md:pb-3 mx-auto flex">
+        <div className="container md:pb-3 mx-auto flex">
           <div className="mx-auto w-full shadow-2xl md:p-6 p-2 border-[2px] rounded border-blue-600">
             <div className="w-full mb-1 px-4 py-2 relative shadow-md">
               <h1 className="title-font font-medium text-2xl mb-2 text-blue-600 capitalize">
@@ -153,7 +153,7 @@ const VisitorInfo: React.FC = () => {
       </section>
       {/* Visitors Analytics */}
       <section className="text-gray-600 body-font rounded mb-4 ">
-        <div className="container md:pl-5 md:pb-3 mx-auto flex">
+        <div className="container md:pb-3 mx-auto flex">
           <div className="flex flex-wrap mx-auto w-full shadow-2xl p-6 border-[2px] rounded border-blue-600">
             <div className="w-full mx-auto bg-white rounded-lg md:mt-4">
               <h1 className="title-font font-medium text-[1.6rem] mb-2 text-blue-600 capitalize">
