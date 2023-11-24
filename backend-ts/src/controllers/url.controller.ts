@@ -18,14 +18,54 @@ const PORT: number | undefined = process.env.PORT
   ? parseInt(process.env.PORT, 10)
   : undefined;
 
+// const shortenURL = async (req: Request, res: Response): Promise<void> => {
+//   //console.log(DOMAIN)
+//   try {
+//     const { original_url, expiration_date, title, description } = req.body;
+
+//     // Validate the original_url
+//     if (!validator.isURL(original_url)) {
+//       res.status(400).json({ error: "Invalid URL format" });
+//       return;
+//     }
+
+//     // Generate a unique short_id
+//     const short_id = await generateUniqueShortID();
+
+//     const expirationDate = getExpirationDate(expiration_date);
+
+//     // Create a new URL entry in the database
+//     const url = createNewURL(
+//       original_url,
+//       short_id,
+//       expirationDate,
+//       title,
+//       description
+//     );
+
+//     await url.save();
+
+//     res.json({ short_url: `${DOMAIN}/${short_id}` });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
 const shortenURL = async (req: Request, res: Response): Promise<void> => {
-  //console.log(DOMAIN)
   try {
     const { original_url, expiration_date, title, description } = req.body;
 
     // Validate the original_url
     if (!validator.isURL(original_url)) {
       res.status(400).json({ error: "Invalid URL format" });
+      return;
+    }
+
+    // Check if the original_url already exists in the database
+    const existingURL = await URL.findOne({ original_url });
+
+    if (existingURL) {
+      res.json({ short_url: `${DOMAIN}/${existingURL.short_id}` });
       return;
     }
 
@@ -51,6 +91,7 @@ const shortenURL = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 const redirectToOriginalURL = async (
   req: Request,
