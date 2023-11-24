@@ -92,7 +92,7 @@ const VisitorInfo: React.FC = () => {
                   <ExternalLinkIcon width={20} height={20} color="blue" />
                   <span className="text-blue-600">Original Url</span>
                 </div>
-                <a href="" className="cursor-pointer underline">
+                <a href={`${urlDetails?.original_url}`} className="cursor-pointer underline">
                   {urlDetails?.original_url}
                 </a>
               </div>
@@ -102,9 +102,9 @@ const VisitorInfo: React.FC = () => {
                   <span className="text-blue-600">Short Url</span>
                 </div>
                 <a
-                  href=""
+                  href={`http://localhost:8000/${urlDetails?.short_id}`}
                   className="cursor-pointer underline"
-                >{`http://localhost:8080/${urlDetails?.short_id}`}</a>
+                >{`http://localhost:8000/${urlDetails?.short_id}`}</a>
               </div>
               <div className="p-4 relative shadow-md w-full">
                 <div className="title-font md:text-lg text-sm font-medium flex  justify-start  items-center gap-2">
