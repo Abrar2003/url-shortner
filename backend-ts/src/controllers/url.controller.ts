@@ -204,7 +204,8 @@ const getShortUrlsByAppId = async (
 
     const result = await URL.find()
       .skip(((page as unknown as number) - 1) * pageSize)
-      .limit(pageSize);
+      .limit(pageSize)
+      .sort({ createdAt: 'desc' });
     res.send(result);
   } catch (error) {
     console.error("Error fetching URLs by App Id:", error);
