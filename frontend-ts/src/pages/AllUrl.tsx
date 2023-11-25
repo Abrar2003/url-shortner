@@ -4,6 +4,7 @@ import EditModal from "./EditModal";
 import StickyButton from "../components/StickyButton";
 import axios from "axios";
 import { Link } from "react-router-dom";
+const server=import.meta.env.VITE_SERVER
 
 interface UrlItem {
     short_id: string;
@@ -27,7 +28,7 @@ const AllUrl: React.FC = () => {
 
     const handleRemove = async (item: UrlItem) => {
         try {
-            await axios.delete(`http://localhost:8000/delete/${item.short_id}`);
+            await axios.delete(`${server}/delete/${item.short_id}`);
             getAllUrl();
         } catch (error) {
             console.log(error);
@@ -40,7 +41,7 @@ const AllUrl: React.FC = () => {
 
     const handleEdit = async (id: string, formData: Record<string, string>) => {
         try {
-            await axios.put(`http://localhost:8000/update/${id}`, formData);
+            await axios.put(`${server}/update/${id}`, formData);
             getAllUrl();
             closeEditModal();
         } catch (error) {
@@ -51,7 +52,7 @@ const AllUrl: React.FC = () => {
     const getAllUrl = async () => {
         setLoading(!loading);
         try {
-            const res = await fetch(`http://localhost:8000/appid?page=${page}`);
+            const res = await fetch(`${server}/appid?page=${page}`);
             const data = await res.json();
             if (data) {
                 setAllUrl(data);
@@ -91,8 +92,8 @@ const AllUrl: React.FC = () => {
                             >
                                 <td className="py-2 px-4 border-b">{index + 1 + (page * 10 - 10)}</td>
                                 <td className="py-2 px-4 border-b btn">
-                                    <a href={`http://localhost:8000/${item.short_id}`} className="cursor-pointer text-blue-500 underline italic">
-                                        {`http://localhost:8000/${item.short_id}`}
+                                    <a href={`${server}/${item.short_id}`} target="blank"  className="cursor-pointer text-blue-500 underline italic">
+                                        {`${server}/${item.short_id}`}
                                     </a>
                                 </td>
                                 <td className="py-2 px-4 border-b capitalize font-normal">{item.title}</td>
@@ -134,7 +135,7 @@ const AllUrl: React.FC = () => {
                                 <h2 className="text-xl font-bold capitalize pb-2">{item.title}</h2>
                                 <div className="flex flex-col text-sm">
                                     <span className="mr-2 flex">
-                                        <a href={`http://localhost:8000/${item.short_id}`} className="cursor-pointer text-blue-500 underline italic">http://localhost:8000/{item.short_id}</a>
+                                        <a href={`${server}/${item.short_id}`} className="cursor-pointer text-blue-500 underline italic">${server}/{item.short_id}</a>
                                     </span>
                                     <span className="mr-2">
                                         status: {item.status}

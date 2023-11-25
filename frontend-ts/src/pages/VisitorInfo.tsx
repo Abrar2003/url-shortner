@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import StickyButton from "../components/StickyButton";
 import { useParams,Link } from "react-router-dom";
 import axios from "axios";
+const server=import.meta.env.VITE_SERVER
+
 import {
   CalendarIcon,
   ExternalLinkIcon,
@@ -45,7 +47,7 @@ const VisitorInfo: React.FC = () => {
   const getUrlDetails = async (id: string) => {
     try {
       const { data } = await axios.get<AxiosResponse>(
-        `http://localhost:8000/analytics/${id}`
+        `${server}/analytics/${id}`
       );
       setUrlDetails(data.url_details);
     } catch (error) {
@@ -56,7 +58,7 @@ const VisitorInfo: React.FC = () => {
   const getLogsData = async (id: string, page: number) => {
     try {
       const { data } = await axios.get<VisitorData[]>(
-        `http://localhost:8000/analytics/visitors/${id}?page=${page}`
+        `${server}/analytics/visitors/${id}?page=${page}`
       );
       setVisitors(data);
     } catch (error) {
@@ -92,7 +94,7 @@ const VisitorInfo: React.FC = () => {
                   <ExternalLinkIcon width={20} height={20} color="blue" />
                   <span className="text-blue-600">Original Url</span>
                 </div>
-                <a href={`${urlDetails?.original_url}`} className="cursor-pointer underline">
+                <a href={`${urlDetails?.original_url}`} target="blank" className="cursor-pointer underline">
                   {urlDetails?.original_url}
                 </a>
               </div>
@@ -102,9 +104,9 @@ const VisitorInfo: React.FC = () => {
                   <span className="text-blue-600">Short Url</span>
                 </div>
                 <a
-                  href={`http://localhost:8000/${urlDetails?.short_id}`}
-                  className="cursor-pointer underline"
-                >{`http://localhost:8000/${urlDetails?.short_id}`}</a>
+                  href={`${server}/${urlDetails?.short_id}`}
+                  className="cursor-pointer underline" target="blank"
+                >{`${server}/${urlDetails?.short_id}`}</a>
               </div>
               <div className="p-4 relative shadow-md w-full">
                 <div className="title-font md:text-lg text-sm font-medium flex  justify-start  items-center gap-2">
