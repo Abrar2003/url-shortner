@@ -34,7 +34,6 @@ const Home: React.FC = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
   return (
     <div className="login-root">
       <div
@@ -145,7 +144,7 @@ const Home: React.FC = () => {
                   Hurray, Shorted Link Generated
                 </span>
                 <div className="flex items-center gap-4 p-2">
-                  <span className="text-blue-600 underline text-lg">{output}</span>
+                  <a className="text-blue-600 underline text-lg" href={`http://${output}`} target="blank">{output}</a>
                   <CopyButton textToCopy={output} />
                 </div>
               </pre>
