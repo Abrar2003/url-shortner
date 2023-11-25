@@ -5,6 +5,7 @@ import axios from "axios";
 import StickyButton from "../components/StickyButton";
 import { Link } from "react-router-dom";
 import CopyButton from "../components/CopyButton";
+const server=import.meta.env.VITE_SERVER
 
 interface FormData {
   originalUrl: string;
@@ -19,7 +20,7 @@ const Home: React.FC = () => {
   const handleGenerate = async (formData: FormData) => {
     try {
       const { originalUrl, title, description, expiring } = formData;
-      const res = await axios.post("http://localhost:8000/short", {
+      const res = await axios.post(`${server}/short`, {
         original_url: originalUrl,
         title,
         description,
@@ -144,7 +145,7 @@ const Home: React.FC = () => {
                   Hurray, Shorted Link Generated
                 </span>
                 <div className="flex items-center gap-4 p-2">
-                  <a className="text-blue-600 underline text-lg" href={`http://${output}`} target="blank">{output}</a>
+                  <a className="text-blue-600 underline text-lg" href={output} target="blank">{output}</a>
                   <CopyButton textToCopy={output} />
                 </div>
               </pre>
